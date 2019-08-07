@@ -66,6 +66,41 @@ async def emoji(ctx, *, content:str):
    emojiText = []
 
    for i in normalText:
+        if i == '0': 
+            emojiText.append(':zero:')
+        elif i == '1': 
+            emojiText.append(':one:')
+        elif i == '2': 
+            emojiText.append(':two:')
+        elif i == '3': 
+            emojiText.append(':three:')
+        elif i == '4': 
+            emojiText.append(':four:')
+        elif i == '5': 
+            emojiText.append(':five:')
+        elif i == '6': 
+            emojiText.append(':six:')
+        elif i == '7': 
+            emojiText.append(':seven:')
+        elif i == '8': 
+            emojiText.append(':eight')
+        elif i == '9': 
+            emojiText.append(':nine:')
+        elif i == 'b':
+            emojiText.append(':b:')
+        elif i == ' ':
+            emojiText.append(' ')
+        else:
+            emojiText.append(':regional_indicator_{}:'.format(i))
+
+   fullStr = ' '.join(emojiText)
+   await ctx.send(fullStr)
+   
+   
+   normalText=list(content.lower())
+   emojiText = []
+
+   for i in normalText:
         if i == 'b':
             emojiText.append(':b:')
         if i == ' ':
