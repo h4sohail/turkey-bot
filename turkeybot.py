@@ -68,6 +68,8 @@ async def emoji(ctx, *, content:str):
    for i in normalText:
         if i == 'b':
             emojiText.append(':b:')
+        if i == ' ':
+            emojiText.append(' ')
         else:
             emojiText.append(':regional_indicator_{}:'.format(i))
 
