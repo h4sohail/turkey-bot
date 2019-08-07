@@ -1,0 +1,2 @@
+# turkeybot
+simple discord bot
