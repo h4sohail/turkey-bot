@@ -93,6 +93,7 @@ async def emoji(ctx, *, content:str):
             emojiText.append(' ')
         elif re.search("[a-z]", i):
             emojiText.append(':regional_indicator_{}:'.format(i))
+<<<<<<< HEAD
         else:
             emojiText.append(i)
 
@@ -100,3 +101,10 @@ async def emoji(ctx, *, content:str):
    await ctx.send(fullStr)
 
 bot.run('Discord Token')
+=======
+
+   fullStr = ' '.join(emojiText)
+   await ctx.send(fullStr)
+   
+bot.run('Client Token Here')
+>>>>>>> faf508ff2978e2f43a962e7749c0cf1498c67788
