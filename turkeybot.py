@@ -19,6 +19,18 @@ async def ping(ctx):
 @bot.command(pass_context=True)
 async def echo(ctx, *, content:str):
     
+    input = content.split(':')
+    
+    if len(input) > 1:
+        index = 0
+        n = int(input[0])
+        content = input[1]
+        while index < n:
+            await ctx.send(content)
+            index += 1
+    else:
+        await ctx.send(input[0])
+    
     list = content.split(':')
     
     if len(list) > 1:
