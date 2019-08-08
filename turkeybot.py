@@ -1,4 +1,5 @@
 import requests
+import re
 import discord
 from discord.ext import commands
 
@@ -33,7 +34,7 @@ async def echo(ctx, *, content:str):
 @bot.command(pass_context=True)
 async def wolfram(ctx, *, content:str):
 
-    wolframAppId = 'Wolfram API Key Here'
+    wolframAppId = 'API Key'
     wolframUrl = 'https://api.wolframalpha.com/v1/result'
     wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
 
@@ -45,7 +46,7 @@ async def wolfram(ctx, *, content:str):
 @bot.command()
 async def wolfram2(ctx, *, content:str):
     
-    wolframAppId = 'Wolfram API Key Here'
+    wolframAppId = 'API Key'
     wolframUrl = 'https://api.wolframalpha.com/v1/simple'
     wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
 
@@ -90,25 +91,12 @@ async def emoji(ctx, *, content:str):
             emojiText.append(':b:')
         elif i == ' ':
             emojiText.append(' ')
-        else:
+        elif re.search("[a-z]", i):
             emojiText.append(':regional_indicator_{}:'.format(i))
-
-   fullStr = ' '.join(emojiText)
-   await ctx.send(fullStr)
-   
-   
-   normalText=list(content.lower())
-   emojiText = []
-
-   for i in normalText:
-        if i == 'b':
-            emojiText.append(':b:')
-        if i == ' ':
-            emojiText.append(' ')
         else:
-            emojiText.append(':regional_indicator_{}:'.format(i))
+            emojiText.append(i)
 
    fullStr = ' '.join(emojiText)
    await ctx.send(fullStr)
 
-bot.run('Client Token Here')
+bot.run('Discord Token')
