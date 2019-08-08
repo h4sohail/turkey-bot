@@ -34,7 +34,7 @@ async def echo(ctx, *, content:str):
 @bot.command(pass_context=True)
 async def wolfram(ctx, *, content:str):
 
-    wolframAppId = 'API Key'
+    wolframAppId = 'Wolfram API Key'
     wolframUrl = 'https://api.wolframalpha.com/v1/result'
     wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
 
@@ -46,7 +46,7 @@ async def wolfram(ctx, *, content:str):
 @bot.command()
 async def wolfram2(ctx, *, content:str):
     
-    wolframAppId = 'API Key'
+    wolframAppId = 'Wolfram API Key'
     wolframUrl = 'https://api.wolframalpha.com/v1/simple'
     wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
 
@@ -93,18 +93,10 @@ async def emoji(ctx, *, content:str):
             emojiText.append(' ')
         elif re.search("[a-z]", i):
             emojiText.append(':regional_indicator_{}:'.format(i))
-<<<<<<< HEAD
         else:
             emojiText.append(i)
 
    fullStr = ' '.join(emojiText)
    await ctx.send(fullStr)
 
-bot.run('Discord Token')
-=======
-
-   fullStr = ' '.join(emojiText)
-   await ctx.send(fullStr)
-   
-bot.run('Client Token Here')
->>>>>>> faf508ff2978e2f43a962e7749c0cf1498c67788
+bot.run('Discord Client Token')
