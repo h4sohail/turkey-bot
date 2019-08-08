@@ -96,19 +96,5 @@ async def emoji(ctx, *, content:str):
    fullStr = ' '.join(emojiText)
    await ctx.send(fullStr)
    
-   
-   normalText=list(content.lower())
-   emojiText = []
-
-   for i in normalText:
-        if i == 'b':
-            emojiText.append(':b:')
-        if i == ' ':
-            emojiText.append(' ')
-        else:
-            emojiText.append(':regional_indicator_{}:'.format(i))
-
-   fullStr = ' '.join(emojiText)
-   await ctx.send(fullStr)
 
 bot.run('Client Token Here')
