@@ -96,5 +96,4 @@ async def emoji(ctx, *, content:str):
    fullStr = ' '.join(emojiText)
    await ctx.send(fullStr)
    
-
 bot.run('Client Token Here')
