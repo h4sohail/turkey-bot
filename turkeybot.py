@@ -96,7 +96,7 @@ async def emoji(ctx, *, content:str):
         elif i == '7': 
             emojiText.append(':seven:')
         elif i == '8': 
-            emojiText.append(':eight')
+            emojiText.append(':eight:')
         elif i == '9': 
             emojiText.append(':nine:')
         elif i == 'b':
