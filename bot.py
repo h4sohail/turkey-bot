@@ -120,19 +120,20 @@ async def wordcloud(ctx):
     plt.axis("off")
     wordcloud.to_file('word_cloud.png')
 
+    
 @commands.command()
 async def wolfram(ctx, *, content:str):
     """
     Returns the search result from wolfram alpha based on keyword(s)
     """
     print('{} - Command: wolfram | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
-    wolframAppId = 'JE3KG9-QAQ9KVK5X6'
-    wolframUrl = 'https://api.wolframalpha.com/v1/result'
-    wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
+    wolfram_app_id = 'JE3KG9-QAQ9KVK5X6'
+    wolfram_url = 'https://api.wolframalpha.com/v1/result'
+    wolfram_params = {'i':'{}'.format(content),'appid':'{}'.format(wolfram_app_id)}
 
     print('Request: '+ content)
 
-    r = requests.get(wolframUrl, params=wolframParams)
+    r = requests.get(wolfram_url, params=wolfram_params)
     await ctx.send(r.text)
     print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
@@ -143,13 +144,13 @@ async def wolfram_image(ctx, *, content:str):
     Returns the search result as an image from wolfram alpha based on keyword(s)
     """
     print('{} - Command: wolfram_image | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
-    wolframAppId = 'JE3KG9-QAQ9KVK5X6'
-    wolframUrl = 'https://api.wolframalpha.com/v1/simple'
-    wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
+    wolfram_app_id = 'JE3KG9-QAQ9KVK5X6'
+    wolfram_url = 'https://api.wolframalpha.com/v1/simple'
+    wolfram_params = {'i':'{}'.format(content),'appid':'{}'.format(wolfram_app_id)}
 
     print('Request: '+ content)
 
-    r = requests.get(wolframUrl, params=wolframParams)
+    r = requests.get(wolfram_url, params=wolfram_params)
     output = open('data.gif','wb')
     output.write(r.content)
     output.close()
@@ -158,6 +159,7 @@ async def wolfram_image(ctx, *, content:str):
     await ctx.channel.send(file=file)
     print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
+    
 @commands.command()
 async def copypasta(ctx, filename, *, content:str):
     """
@@ -190,40 +192,40 @@ async def emojify(ctx, *, content:str):
    Emojify the input
    """
    print('{} - Command: emoji | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
-   normalText=list(content.lower())
-   emojiText = []
+   normal_text=list(content.lower())
+   emoji_text = []
 
-   for i in normalText:
+   for i in normal_text:
         if i == '0': 
-            emojiText.append(':zero:')
+            emoji_text.append(':zero:')
         elif i == '1': 
-            emojiText.append(':one:')
+            emoji_text.append(':one:')
         elif i == '2': 
-            emojiText.append(':two:')
+            emoji_text.append(':two:')
         elif i == '3': 
-            emojiText.append(':three:')
+            emoji_text.append(':three:')
         elif i == '4': 
-            emojiText.append(':four:')
+            emoji_text.append(':four:')
         elif i == '5': 
-            emojiText.append(':five:')
+            emoji_text.append(':five:')
         elif i == '6': 
-            emojiText.append(':six:')
+            emoji_text.append(':six:')
         elif i == '7': 
-            emojiText.append(':seven:')
+            emoji_text.append(':seven:')
         elif i == '8': 
-            emojiText.append(':eight:')
+            emoji_text.append(':eight:')
         elif i == '9': 
-            emojiText.append(':nine:')
+            emoji_text.append(':nine:')
         elif i == 'b':
-            emojiText.append(':b:')
+            emoji_text.append(':b:')
         elif i == ' ':
-            emojiText.append(' ')
+            emoji_text.append(' ')
         elif re.search("[a-z]", i):
-            emojiText.append(':regional_indicator_{}:'.format(i))
+            emoji_text.append(':regional_indicator_{}:'.format(i))
         else:
-            emojiText.append(i)
+            emoji_text.append(i)
 
-   fullStr = ' '.join(emojiText)
+   fullStr = ' '.join(emoji_text)
    await ctx.send(fullStr)
    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 
