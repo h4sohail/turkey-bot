@@ -21,7 +21,7 @@ bot = commands.Bot(command_prefix="!")
 
 def is_admin(user):
     """
-    Checks whether user is an administrator on the guild 
+    Checks if the user is an administrator
     """
     return user.guild_permissions.administrator
 
