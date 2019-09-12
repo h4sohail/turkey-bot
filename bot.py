@@ -19,13 +19,6 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix="!")
 
 
-def is_admin(user):
-    """
-    Checks if the user is an administrator
-    """
-    return user.guild_permissions.administrator
-
-
 @bot.event
 async def on_message(message):
     """
