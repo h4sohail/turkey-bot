@@ -67,7 +67,57 @@ async def coinflip(ctx):
     options=['Heads','Tails']
     await ctx.send('You rolled ' + options[random.randint(0,1)])
 
+@commands.command()
+async def giverole(ctx, role_name:str, *, color_code:str):
+    """ 
+    Usage: !giverole "role name here" [html color code here]
+    You can grab the html color code from here:
+    https://www.google.com/search?q=color+picker
+    Html color codes are in the format: #0ecf43
+    Example usage: !giverole "green is the best" #0ecf43   
+    """
+    print('{} - Command: giverole | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    
+    if color_code == '#000000':
+        color_code = '#111111'
+        print(f'Color Code Exception 0. Color Replaced With: {color_code}')
+    else:
+        pass
 
+    color_code = color_code.split('#')
+    color_code.insert(0, '0x')
+    color_code = ''.join(color_code)
+    color_code = int(color_code, 16)
+
+    guild = ctx.guild
+    
+    await guild.create_role(name=role_name,color=discord.Colour(color_code))
+
+    member = ctx.author
+    role = discord.utils.get(member.guild.roles, name=role_name)
+
+    if role is None:
+        await ctx.send("something went wrong :D")
+    else:
+        await  member.add_roles(role)
+        await ctx.send("role added")
+    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+
+@commands.command()
+async def removerole(ctx, role_name:str):
+    print('{} - Command: removerole | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    guild = ctx.guild
+    member = ctx.author
+    role = discord.utils.get(member.guild.roles, name=role_name)
+    if role is None:
+        await ctx.send('something went wrong :D')
+    else:
+        await  member.remove_roles(role)
+        await ctx.send('role removed')
+    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    
+    
 @commands.command()
 async def google(ctx, *, keywords:str):
     """
@@ -235,6 +285,8 @@ def main():
     bot.add_command(wolfram_image)
     bot.add_command(copypasta)
     bot.add_command(pasta)
+    bot.add_command(giverole)
+    bot.add_command(removerole)
 
     bot.run('BOT TOKEN GOES HERE')
 
