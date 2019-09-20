@@ -458,7 +458,6 @@ async def robford(ctx, *, text:str):
 
 @commands.command()
 async def ping(ctx):
-
     print('{} - Command: ping | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
     latency = bot.latency 
     await ctx.send(latency)
@@ -512,7 +511,6 @@ async def pasta(ctx, filename):
 
 @commands.command()
 async def wolfram(ctx, *, content:str):
-
     print('{} - Command: wolfram | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
     wolframAppId = 'JE3KG9-QAQ9KVK5X6'
     wolframUrl = 'https://api.wolframalpha.com/v1/result'
@@ -527,7 +525,6 @@ async def wolfram(ctx, *, content:str):
 
 @commands.command()
 async def wolfram2(ctx, *, content:str):
-
     print('{} - Command: wolfram2 | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
     wolframAppId = 'JE3KG9-QAQ9KVK5X6'
     wolframUrl = 'https://api.wolframalpha.com/v1/simple'
@@ -547,7 +544,6 @@ async def wolfram2(ctx, *, content:str):
 
 @commands.command()
 async def google(ctx, *, keywords:str):
-
     print('{} - Command: google | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
     
     response = google_images_download.googleimagesdownload()   #class instantiation
@@ -566,7 +562,6 @@ async def google(ctx, *, keywords:str):
 
 @commands.command()
 async def youtube(ctx, *, url:str):
-
     print('{} - Command: youtube | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
     if os.path.exists('source.m4a'):
         os.remove('source.m4a')
@@ -613,50 +608,7 @@ async def youtube(ctx, *, url:str):
 
 
 @commands.command()
-async def rosie(ctx):
-
-    print('{} - Command: rosie | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
-    try:
-        channel = ctx.message.author.voice.channel
-        if not channel:
-            await ctx.send('You are not connected to a voice channel')
-
-        voice = get(bot.voice_clients, guild=ctx.guild)
-        if voice and voice.is_connected():
-                await voice.move_to(channel)
-        else:
-            voice = await channel.connect()
-        source = FFmpegPCMAudio('sounds/rosie.m4a')
-        player = voice.play(source)
-    except:
-        await ctx.send('You are not connected to a voice channel')
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
-
-@commands.command()
-async def rosie2(ctx):
-
-    print('{} - Command: rosie2 | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
-    try:
-        channel = ctx.message.author.voice.channel
-        if not channel:
-            await ctx.send('You are not connected to a voice channel')
-
-        voice = get(bot.voice_clients, guild=ctx.guild)
-        if voice and voice.is_connected():
-                await voice.move_to(channel)
-        else:
-            voice = await channel.connect()
-        source = FFmpegPCMAudio('sounds/rosie2.m4a')
-        player = voice.play(source)
-    except:
-        await ctx.send('You are not connected to a voice channel')
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-
-
-@commands.command()
 async def succ(ctx):
-
     print('{} - Command: succ | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
     try:
         channel = ctx.message.author.voice.channel
@@ -677,7 +629,6 @@ async def succ(ctx):
 
 @commands.command()
 async def oof(ctx):
-
     print('{} - Command: oof | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
     try:
         channel = ctx.message.author.voice.channel
@@ -775,8 +726,6 @@ async def help(ctx):
     embed.add_field(name='!google', value='usage: !google [keywords]', inline = False)
     embed.add_field(name='!youtube', value='usage: !youtube [youtube link]', inline = False)
     embed.add_field(name='!disconnect', value='disconnects the bot from the voice channel', inline = False)
-    embed.add_field(name='!rosie', value='plays a sound: rosie.mp3', inline = False)
-    embed.add_field(name='!rosie2', value='plays a sound: rosie2.mp3', inline = False)
     embed.add_field(name='!ghandi', value='usage: !ghandi (text)', inline = False)
     embed.add_field(name='!dougford', value='usage: !dougford (text)', inline = False)
     embed.add_field(name='!robford', value='usage: !robford (text)', inline = False)
@@ -804,8 +753,6 @@ def main():
     bot.add_command(google)
     bot.add_command(youtube)
     bot.add_command(disconnect)
-    bot.add_command(rosie)
-    bot.add_command(rosie2)
     bot.add_command(ghandi)
     bot.add_command(dougford)
     bot.add_command(robford)
@@ -813,7 +760,7 @@ def main():
     bot.add_command(votemute)
     bot.add_command(voteunmute)
 
-    bot.run('')
+    bot.run('Discord Bot Token Here')
 
 if __name__ == "__main__":
     main()
