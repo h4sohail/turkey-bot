@@ -133,6 +133,14 @@ async def auto_unmute(): # auto unmutes people and updates the muted
             del muted[member]
 
 
+def logger(func, ctx, start):
+    time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    if start == True:
+        print(f'{time_stamp} - Command: reset | Author: {ctx.message.author}')
+    else:
+        print(f'{time_stamp} - Task Finished Succesfully')
+
+
 def text_wrap(text, font, max_width):
     lines = []
     # If the width of the text is smaller than image width
@@ -168,7 +176,8 @@ def is_admin(user):
 
 @commands.command()
 async def reset(ctx):
-    print('{} - Command: reset | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('reset',ctx,True)
+    
     if is_admin(ctx.message.author):
         bot.clear()
         await ctx.send('cache cleared')
@@ -177,12 +186,13 @@ async def reset(ctx):
     else:
         await ctx.send('you are not authorized to use this command :rage:')
 
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    logger('reset',ctx,False)
 
 
 @commands.command()
 async def votemute(ctx, member:discord.Member=None):
-    print('{} - Command: votemute | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('votemute',ctx,True)
+    
     global vote
     global votes
     global voters
@@ -227,12 +237,13 @@ async def votemute(ctx, member:discord.Member=None):
     vote = False
     votes = {'yes':0, 'no':0}
    
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    logger('votemute',ctx,False)
 
 
 @commands.command()
 async def voteunmute(ctx, member:discord.Member=None):
-    print('{} - Command: votemute | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('voteunmute',ctx,True)
+
     global u_vote
     global u_votes
     global u_voters
@@ -271,7 +282,7 @@ async def voteunmute(ctx, member:discord.Member=None):
     u_vote = False
     u_votes = {'yes':0, 'no':0}
        
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    logger('voteunmute',ctx,False)
 
 
 @commands.command()
@@ -283,7 +294,7 @@ async def giverole(ctx, role_name:str, *, color_code:str):
     # Html color codes are in the format: #0ecf43
     # Example usage: !giverole "green is the best" #0ecf43   
     ###
-    print('{} - Command: giverole | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('giverole',ctx,True)
     
     if color_code == '#000000':
         color_code = '#111111'
@@ -309,12 +320,13 @@ async def giverole(ctx, role_name:str, *, color_code:str):
     await member.add_roles(role)
     await ctx.send('role added')
 
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    logger('giverole',ctx,False)
 
 
 @commands.command()
 async def removerole(ctx, role_name:str):
-    print('{} - Command: removerole | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('removerole',ctx,True)
+
     member = ctx.author
     role = discord.utils.get(member.guild.roles, name=role_name)
     if role is None:
@@ -322,12 +334,13 @@ async def removerole(ctx, role_name:str):
     else:
         await  member.remove_roles(role)
         await ctx.send('role removed')
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('removerole',ctx,False)
 
 
 @commands.command()
 async def wordcloud(ctx):
-    print('{} - Command: wordcloud | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('wordcloud',ctx,True)
     
     messages = []
 
@@ -348,13 +361,13 @@ async def wordcloud(ctx):
     file = discord.File('word_cloud.png')
     await ctx.channel.send(file=file)
     
-
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    logger('wordcloud',ctx,False)
 
 
 @commands.command()
 async def clown(ctx, *, text:str):
-    print('{} - Command: clown | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('clown',ctx,True)
+
     img = Image.open('resources/clown.jpg')
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype('resources/arial.ttf', 55)
@@ -375,12 +388,14 @@ async def clown(ctx, *, text:str):
     file = discord.File('resources/clown_edit.jpg')
 
     await ctx.channel.send(file=file)
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('clown',ctx,False)
 
 
 @commands.command()
 async def ghandi(ctx, *, text:str):
-    print('{} - Command: ghandi | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('ghandi',ctx,True)
+
     img = Image.open('resources/ghandi.jpg')
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype('resources/arial.ttf', 60)
@@ -401,12 +416,14 @@ async def ghandi(ctx, *, text:str):
     file = discord.File('resources/ghandi_edit.jpg')
 
     await ctx.channel.send(file=file)
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('ghandi',ctx,False)
 
 
 @commands.command()
 async def dougford(ctx, *, text:str):
-    print('{} - Command: dougford | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('dougford',ctx,True)
+
     img = Image.open('resources/dougford.jpg')
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype('resources/arial.ttf', 55)
@@ -427,12 +444,14 @@ async def dougford(ctx, *, text:str):
     file = discord.File('resources/dougford_edit.jpg')
 
     await ctx.channel.send(file=file)
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('dougford',ctx,False)
 
 
 @commands.command()
 async def robford(ctx, *, text:str):
-    print('{} - Command: dougford | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('robford',ctx,True)
+
     img = Image.open('resources/robford.jpg')
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype('resources/arial.ttf', 55)
@@ -453,21 +472,25 @@ async def robford(ctx, *, text:str):
     file = discord.File('resources/robford_edit.jpg')
 
     await ctx.channel.send(file=file)
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('robford',ctx,False)
 
 
 @commands.command()
 async def ping(ctx):
-    print('{} - Command: ping | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('ping',ctx,True)
+
     latency = bot.latency 
     await ctx.send(latency)
     await ctx.send(':ping_pong:')
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('ping',ctx,False)
 
 
 @commands.command()
 async def echo(ctx, n:int, *, content:str):
-    print('{} - Command: echo | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('echo',ctx,True)
+
     index = 0
     limit = 15
     if n > 0:
@@ -477,12 +500,14 @@ async def echo(ctx, n:int, *, content:str):
             index += 1
     else:
         await ctx.send(content)
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('echo',ctx,False)
 
 
 @commands.command()
 async def copypasta(ctx, *, content:str):
-    print('{} - Command: copypasta | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('copypasta',ctx,True)
+
     try:
         #!copypasta pasta_name pasta
         filename = re.sub('\W+',' ',(content.split()[0]))
@@ -496,22 +521,26 @@ async def copypasta(ctx, *, content:str):
            f.write(f'{pasta_string}\n')
     except:
         print('something went wrong')
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('copypasta',ctx,False)
 
 
 @commands.command()
 async def pasta(ctx, filename):
-    print('{} - Command: pasta | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('pasta',ctx,True)
+
     dir = f'copypasta/{filename}.txt'
     with open(dir, 'r') as f:
         pasta = f.read()
         await ctx.send(pasta)
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('pasta',ctx,False)
 
 
 @commands.command()
 async def wolfram(ctx, *, content:str):
-    print('{} - Command: wolfram | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('wolfram',ctx,True)
+
     wolframAppId = 'JE3KG9-QAQ9KVK5X6'
     wolframUrl = 'https://api.wolframalpha.com/v1/result'
     wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
@@ -520,12 +549,14 @@ async def wolfram(ctx, *, content:str):
 
     r = requests.get(wolframUrl, params=wolframParams)
     await ctx.send(r.text)
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('wolfram',ctx,False)
 
 
 @commands.command()
 async def wolfram2(ctx, *, content:str):
-    print('{} - Command: wolfram2 | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('wolfram2',ctx,True)
+
     wolframAppId = 'JE3KG9-QAQ9KVK5X6'
     wolframUrl = 'https://api.wolframalpha.com/v1/simple'
     wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
@@ -539,12 +570,13 @@ async def wolfram2(ctx, *, content:str):
     file = discord.File('data.gif')
 
     await ctx.channel.send(file=file)
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    
+    logger('wolfram2',ctx,False)
 
 
 @commands.command()
 async def google(ctx, *, keywords:str):
-    print('{} - Command: google | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('google',ctx,True)
     
     response = google_images_download.googleimagesdownload()   #class instantiation
 
@@ -557,12 +589,14 @@ async def google(ctx, *, keywords:str):
     await ctx.send(files=my_files)
     
     shutil.rmtree('/home/ubuntu/dining_services_bot/downloads')
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('google',ctx,False)
 
 
 @commands.command()
 async def youtube(ctx, *, url:str):
-    print('{} - Command: youtube | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('youtube',ctx,True)
+
     if os.path.exists('source.m4a'):
         os.remove('source.m4a')
 
@@ -604,12 +638,13 @@ async def youtube(ctx, *, url:str):
     except:
         await ctx.send('You are not connected to a voice channel')
 
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    logger('youtube',ctx,False)
 
 
 @commands.command()
 async def succ(ctx):
-    print('{} - Command: succ | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('succ',ctx,True)
+
     try:
         channel = ctx.message.author.voice.channel
         if not channel:
@@ -624,12 +659,14 @@ async def succ(ctx):
         player = voice.play(source)
     except:
         await ctx.send('You are not connected to a voice channel')
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('succ',ctx,False)
 
 
 @commands.command()
 async def oof(ctx):
-    print('{} - Command: oof | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('oof',ctx,True)
+
     try:
         channel = ctx.message.author.voice.channel
         if not channel:
@@ -644,30 +681,36 @@ async def oof(ctx):
         player = voice.play(source)
     except:
         await ctx.send('You are not connected to a voice channel')
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('oof',ctx,False)
 
 
 @commands.command()
 async def flip(ctx):
-    print('{} - Command: flip | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('flip',ctx,True)
+
     options=['Heads','Tails']
     await ctx.send('You rolled ' + options[random.randint(0,1)])
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('flip',ctx,False)
 
 
 @commands.command()
 async def disconnect(ctx):
-    print('{} - Command: disconnect | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('disconnect',ctx,True)
+
     voice = get(bot.voice_clients, guild=ctx.guild)
     await voice.disconnect()
     if os.path.exists('source.m4a'):
         os.remove('source.m4a')
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('disconnect',ctx,False)
 
 
 @commands.command()
 async def emoji(ctx, *, content:str):
-   print('{} - Command: emoji | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+   logger('emoji',ctx,True)
+
    normalText=list(content.lower())
    emojiText = []
 
@@ -703,12 +746,13 @@ async def emoji(ctx, *, content:str):
 
    fullStr = ' '.join(emojiText)
    await ctx.send(fullStr)
-   print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+   logger('emoji',ctx,False)
 
 
 @commands.command()
 async def help(ctx):
-    print('{} - Command: help | Author: {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),ctx.author))
+    logger('help',ctx,True)
 
     embed = discord.Embed(title='Available Commands')
 
@@ -734,7 +778,8 @@ async def help(ctx):
     embed.add_field(name='!voteunmute', value='usage: !voteunmute (tag the user to mute)', inline = False)
 
     await ctx.send(embed=embed)
-    print('{} - Task Finished Succesfully'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+
+    logger('help',ctx,False)
 
  
 def main():
