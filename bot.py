@@ -365,7 +365,7 @@ async def wordcloud(ctx):
     logger('wordcloud',ctx,False)
 
 
-@bot.group() 
+@commands.group() 
 async def meme(ctx):
     if ctx.invoked_subcommand is None:
         await ctx.send('invalid command :D')
@@ -775,10 +775,10 @@ async def help(ctx):
     embed.add_field(name='!google', value='usage: !google [keywords]', inline = False)
     embed.add_field(name='!youtube', value='usage: !youtube [youtube link]', inline = False)
     embed.add_field(name='!disconnect', value='disconnects the bot from the voice channel', inline = False)
-    embed.add_field(name='!meme.ghandi', value='usage: !ghandi (text)', inline = False)
-    embed.add_field(name='!meme.dougford', value='usage: !dougford (text)', inline = False)
-    embed.add_field(name='!meme.robford', value='usage: !robford (text)', inline = False)
-    embed.add_field(name='!meme.clown', value='usage: !clown (text)', inline = False)
+    embed.add_field(name='!meme ghandi', value='usage: !ghandi (text)', inline = False)
+    embed.add_field(name='!meme dougford', value='usage: !dougford (text)', inline = False)
+    embed.add_field(name='!meme robford', value='usage: !robford (text)', inline = False)
+    embed.add_field(name='!meme clown', value='usage: !clown (text)', inline = False)
     embed.add_field(name='!votemute', value='usage: !votemute (tag the user to mute)', inline = False)
     embed.add_field(name='!voteunmute', value='usage: !voteunmute (tag the user to mute)', inline = False)
 
@@ -807,6 +807,7 @@ def main():
     bot.add_command(dougford)
     bot.add_command(robford)
     bot.add_command(clown)
+    bot.add_command(meme)
     bot.add_command(votemute)
     bot.add_command(voteunmute)
 
