@@ -810,6 +810,7 @@ def main():
     bot.add_command(meme)
     bot.add_command(votemute)
     bot.add_command(voteunmute)
+    bot.add_command(reset)
 
     bot.run('Discord_Bot_Token_Here')
 
