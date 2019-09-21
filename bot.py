@@ -93,7 +93,7 @@ async def on_message(message): # runs on a new message being sent in the server
     
     else:
         pass # TO-DO:To be decided
-
+      
     dir = 'cache\log.txt' # log all messages sent in the server with a time stamp in the format YYYY:MM:DD HH:MM:SS
     with open(dir, 'a') as f:
        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -166,23 +166,24 @@ def text_wrap(text, font, max_width):
             lines.append(line)    
     return lines
 
-
-def is_admin(user):
+#checks if a user is an administrator
+def is_admin(user): 
     """
     Checks if the user is an administrator
     """
     return user.guild_permissions.administrator
 
-
+#clears the cache and restarts the bot
 @commands.command()
 async def reset(ctx):
     logger('reset',ctx,True)
     
     if is_admin(ctx.message.author):
-        bot.clear()
+        bot.clear() # clear internal cache
+        shutil.rmtree('/home/ubuntu/dining_services_bot/downloads') # delete cached google images
         await ctx.send('cache cleared')
         await ctx.send('restarting the bot')
-        os.execv('/home/ubuntu/dining_services_bot/bot.py', sys.argv)
+        os.execv('/home/ubuntu/dining_services_bot/bot.py', sys.argv) # restart the bot
     else:
         await ctx.send('you are not authorized to use this command :rage:')
 
@@ -197,12 +198,12 @@ async def votemute(ctx, member:discord.Member=None):
     global votes
     global voters
     global muted
-    guild = ctx.guild
-    if vote or u_vote:
+    guild = ctx.guild # get guild(server) information
+    if vote or u_vote: # make sure only 1 voting session is active at a time
         await ctx.send('a vote is already in progress, please wait')
         return
         
-    vote = True
+    vote = True 
 
     await ctx.send(f'vote to mute started by {ctx.message.author}')
     await ctx.send('reply with [yes] or [no] to vote')
@@ -216,17 +217,17 @@ async def votemute(ctx, member:discord.Member=None):
     await ctx.send('waiting 10 seconds for votes')
     await asyncio.sleep(10)
 
-    yes_votes = votes['yes']
-    no_votes = votes['no']
+    yes_votes = votes['yes'] # get amount of yes votes
+    no_votes = votes['no'] # get amount of no votes
 
-    if yes_votes > no_votes:
+    if yes_votes > no_votes: # compare results
         await ctx.send('the majority has voted yes, user will be muted for 15 minutes')
         
-        role = discord.utils.get(member.guild.roles, name='muted by the people')
-        await  member.add_roles(role)
-        muted[member] = time.time()
+        role = discord.utils.get(member.guild.roles, name='muted by the people') # get the muted role
+        await  member.add_roles(role) # assign the muted role
+        muted[member] = time.time() # add member to the muted list with a time stamp
         print(f'{member} has been muted for 15 minutes')
-        for invite in await guild.invites():
+        for invite in await guild.invites(): # remove muted users invites
             if invite.inviter == member:
                 await invite.delete()
             else:
@@ -296,28 +297,28 @@ async def giverole(ctx, role_name:str, *, color_code:str):
     ###
     logger('giverole',ctx,True)
     
-    if color_code == '#000000':
+    if color_code == '#000000': # discord.py was having issues with this color code
         color_code = '#111111'
         print(f'Color Code Exception 0. Color Replaced With: {color_code}')
     else:
         pass
 
-    color_code = color_code.split('#')
-    color_code.insert(0, '0x')
-    color_code = ''.join(color_code)
-    color_code = int(color_code, 16)
+    color_code = color_code.split('#') # remove the #
+    color_code.insert(0, '0x') # replace it with 0x
+    color_code = ''.join(color_code) # join the string back
+    color_code = int(color_code, 16) # cast to base 16 int
 
     guild = ctx.guild
     member = ctx.author
     role = discord.utils.get(member.guild.roles, name=role_name)
 
-    if role not in guild.roles:
+    if role not in guild.roles: # if role doesnt exist, create it
         await guild.create_role(name=role_name,color=discord.Colour(color_code))
     
     if role == None:
         await ctx.send('something went wrong :D')
     
-    await member.add_roles(role)
+    await member.add_roles(role) # assign the role to the member
     await ctx.send('role added')
 
     logger('giverole',ctx,False)
@@ -342,29 +343,35 @@ async def removerole(ctx, role_name:str):
 async def wordcloud(ctx):
     logger('wordcloud',ctx,True)
     
-    messages = []
+    messages = [] 
 
-    for message in bot.cached_messages:
+    for message in bot.cached_messages: # grab all the messages from the bot's internal cache
             messages.append(message.content)
 
     text = ' '.join(messages)
    
-    if os.path.exists('word_cloud.png'):
+    if os.path.exists('word_cloud.png'): # delete the last word cloud
         os.remove('word_cloud.png')
 
-    wordcloud = WordCloud(max_font_size=50, max_words=500, background_color="white").generate(text)
-    plt.figure()
+    wordcloud = WordCloud(max_font_size=50, max_words=500, background_color="white").generate(text) # generate the wordcloud
+    plt.figure() # draw the wordcloud
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
-    wordcloud.to_file('word_cloud.png')
+    wordcloud.to_file('word_cloud.png') # save the wordcloud as an image file
 
-    file = discord.File('word_cloud.png')
-    await ctx.channel.send(file=file)
+    file = discord.File('word_cloud.png') # create an attachment
+    await ctx.channel.send(file=file) # send the attachment
     
     logger('wordcloud',ctx,False)
 
 
-@commands.command()
+@bot.group() 
+async def meme(ctx):
+    if ctx.invoked_subcommand is None:
+        await ctx.send('invalid command :D')
+
+
+@meme.command()
 async def clown(ctx, *, text:str):
     logger('clown',ctx,True)
 
@@ -392,7 +399,7 @@ async def clown(ctx, *, text:str):
     logger('clown',ctx,False)
 
 
-@commands.command()
+@meme.command()
 async def ghandi(ctx, *, text:str):
     logger('ghandi',ctx,True)
 
@@ -420,7 +427,7 @@ async def ghandi(ctx, *, text:str):
     logger('ghandi',ctx,False)
 
 
-@commands.command()
+@meme.command()
 async def dougford(ctx, *, text:str):
     logger('dougford',ctx,True)
 
@@ -448,7 +455,7 @@ async def dougford(ctx, *, text:str):
     logger('dougford',ctx,False)
 
 
-@commands.command()
+@meme.command()
 async def robford(ctx, *, text:str):
     logger('robford',ctx,True)
 
@@ -587,8 +594,6 @@ async def google(ctx, *, keywords:str):
     ]
 
     await ctx.send(files=my_files)
-    
-    shutil.rmtree('/home/ubuntu/dining_services_bot/downloads')
 
     logger('google',ctx,False)
 
@@ -770,10 +775,10 @@ async def help(ctx):
     embed.add_field(name='!google', value='usage: !google [keywords]', inline = False)
     embed.add_field(name='!youtube', value='usage: !youtube [youtube link]', inline = False)
     embed.add_field(name='!disconnect', value='disconnects the bot from the voice channel', inline = False)
-    embed.add_field(name='!ghandi', value='usage: !ghandi (text)', inline = False)
-    embed.add_field(name='!dougford', value='usage: !dougford (text)', inline = False)
-    embed.add_field(name='!robford', value='usage: !robford (text)', inline = False)
-    embed.add_field(name='!clown', value='usage: !clown (text)', inline = False)
+    embed.add_field(name='!meme.ghandi', value='usage: !ghandi (text)', inline = False)
+    embed.add_field(name='!meme.dougford', value='usage: !dougford (text)', inline = False)
+    embed.add_field(name='!meme.robford', value='usage: !robford (text)', inline = False)
+    embed.add_field(name='!meme.clown', value='usage: !clown (text)', inline = False)
     embed.add_field(name='!votemute', value='usage: !votemute (tag the user to mute)', inline = False)
     embed.add_field(name='!voteunmute', value='usage: !voteunmute (tag the user to mute)', inline = False)
 
@@ -805,7 +810,7 @@ def main():
     bot.add_command(votemute)
     bot.add_command(voteunmute)
 
-    bot.run('Discord Bot Token Here')
+    bot.run('Discord_Bot_Token_Here')
 
 if __name__ == "__main__":
     main()
