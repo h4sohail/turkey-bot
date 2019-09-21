@@ -180,7 +180,12 @@ async def reset(ctx):
     
     if is_admin(ctx.message.author):
         bot.clear() # clear internal cache
-        shutil.rmtree('/home/ubuntu/dining_services_bot/downloads') # delete cached google images
+        if os.path.exists('word_cloud.png'): # delete the last word cloud
+            os.remove('word_cloud.png')
+        if os.path.exists('/home/ubuntu/dining_services_bot/downloads'): # delete cached google images
+            shutil.rmtree('/home/ubuntu/dining_services_bot/downloads')
+        if os.path.exists('source.m4a'): # delete the last youtube sound file 
+            os.remove('source.m4a')
         await ctx.send('cache cleared')
         await ctx.send('restarting the bot')
         os.execv('/home/ubuntu/dining_services_bot/bot.py', sys.argv) # restart the bot
@@ -812,7 +817,7 @@ def main():
     bot.add_command(voteunmute)
     bot.add_command(reset)
 
-    bot.run('Discord_Bot_Token_Here')
+    bot.run('NjE5NjAxMTI5MDAwNDAyOTQ0.XXKnCA.gxr-vYD6pYcGmuI08zqRBDUYeo8')
 
 if __name__ == "__main__":
     main()
