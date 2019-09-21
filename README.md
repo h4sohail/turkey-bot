@@ -1,6 +1,6 @@
-# turkeybot
+# Turkey Bot
 Simple bot for Discord written in Python3 to be ran on a linux based environment with Python3 and ffmpeg installed
-# requirements
+# Requirements
 Refer to requirements.txt
 # Commands
 !ping': 'returns the ping'  
