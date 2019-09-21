@@ -136,7 +136,7 @@ async def auto_unmute(): # auto unmutes people and updates the muted
 def logger(func, ctx, start):
     time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     if start == True:
-        print(f'{time_stamp} - Command: reset | Author: {ctx.message.author}')
+        print(f'{time_stamp} - Command: {func} | Author: {ctx.message.author}')
     else:
         print(f'{time_stamp} - Task Finished Succesfully')
 
