@@ -123,6 +123,7 @@ async def muted_list_import(): # imports the list of muted users every 10 second
         #muted = json.load(f)
     pass
 
+
 @tasks.loop(seconds=10) # TO-DO
 async def auto_unmute(): # auto unmutes people and updates the muted 
     for member in muted:
@@ -166,12 +167,14 @@ def text_wrap(text, font, max_width):
             lines.append(line)    
     return lines
 
+
 #checks if a user is an administrator
 def is_admin(user): 
     """
     Checks if the user is an administrator
     """
     return user.guild_permissions.administrator
+
 
 #clears the cache and restarts the bot
 @commands.command()
@@ -502,6 +505,9 @@ async def ping(ctx):
 @commands.command()
 async def echo(ctx, n:int, *, content:str):
     logger('echo',ctx,True)
+    
+    if '@everyone' in content:
+        return
 
     index = 0
     limit = 15
@@ -817,7 +823,7 @@ def main():
     bot.add_command(voteunmute)
     bot.add_command(reset)
 
-    bot.run('NjE5NjAxMTI5MDAwNDAyOTQ0.XXKnCA.gxr-vYD6pYcGmuI08zqRBDUYeo8')
+    bot.run('CLIENT_TOKEN_HERE')
 
 if __name__ == "__main__":
     main()
