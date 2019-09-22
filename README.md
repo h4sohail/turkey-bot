@@ -4,13 +4,13 @@ Simple bot for Discord written in Python3 to be ran on a linux based environment
 Refer to requirements.txt
 # Commands
 !ping: returns the ping  
-!echo: usage= !echo [number of times to echo] [text to echo]
+!echo: usage= !echo [number of times to echo] [text to echo]  
 !votemute: usage= !votemute (tag the user to mute)  
-           Initiates a vote, where users can reply with [yes] or [no] and
-           stores all votes and voters in a dictionary and a list respectively,
-           only allows one active vote to run at a time, and only collects
-           unique votes. 
-!voteunmute: usage= !voteunmute (tag the user to mute)
+           Initiates a vote, where users can reply with [yes] or [no] and  
+           stores all votes and voters in a dictionary and a list respectively,  
+           only allows one active vote to run at a time, and only collects  
+           unique votes.  
+!voteunmute: usage= !voteunmute (tag the user to mute)  
 !giverole: usage= !giverole "name" [html color code]  
 !removerole: usage= !removerole "name"  
 !wordcloud: generates a wordcloud from the last 5000 messages send in the server 
