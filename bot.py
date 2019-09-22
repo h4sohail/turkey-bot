@@ -818,6 +818,8 @@ def main():
     bot.add_command(dougford)
     bot.add_command(robford)
     bot.add_command(clown)
+    bot.add_command(succ)
+    bot.add_command(oof)
     bot.add_command(meme)
     bot.add_command(votemute)
     bot.add_command(voteunmute)
