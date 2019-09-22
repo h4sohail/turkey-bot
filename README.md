@@ -15,8 +15,8 @@ Refer to requirements.txt
 !removerole: usage= !removerole "name"  
 !wordcloud: generates a wordcloud from the last 5000 messages send in the server 
 !emoji: turns text into emojis, usage= !emoji text  
-!wolfram: wolfram search  query, usage= !wolfram keywords
-!wolfram2: wolfram search query but returns an image with results, usage !wolfram2 keywords
+!wolfram: wolfram search  query, usage= !wolfram keywords  
+!wolfram2: wolfram search query but returns an image with results, usage !wolfram2 keywords  
 !google: returns a random google image based on keywords, usage= !google "keywords"  
 !youtube: plays a video from youtube, usage= !youtube [youtube link]  
 !disconnect: disconnects the bot from the voice channel  
