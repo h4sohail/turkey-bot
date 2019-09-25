@@ -435,62 +435,6 @@ async def ghandi(ctx, *, text:str):
     logger('ghandi',ctx,False)
 
 
-@meme.command()
-async def dougford(ctx, *, text:str):
-    logger('dougford',ctx,True)
-
-    img = Image.open('resources/dougford.jpg')
-    draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype('resources/arial.ttf', 55)
-    image_size = img.size
-    lines = text_wrap(text, font, image_size[0])
-    line_height = font.getsize('hg')[1]
-
-    x = 0
-    y = 0
-    color = (0,0,0)
-    for line in lines:
-        # draw the line on the image
-        draw.text((x, y), line, fill=color, font=font)
-        # update the y position so that we can use it for next line
-        y = y + line_height
-
-    img.save('resources/dougford_edit.jpg')
-    file = discord.File('resources/dougford_edit.jpg')
-
-    await ctx.channel.send(file=file)
-
-    logger('dougford',ctx,False)
-
-
-@meme.command()
-async def robford(ctx, *, text:str):
-    logger('robford',ctx,True)
-
-    img = Image.open('resources/robford.jpg')
-    draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype('resources/arial.ttf', 55)
-    image_size = img.size
-    lines = text_wrap(text, font, image_size[0])
-    line_height = font.getsize('hg')[1]
-
-    x = 0
-    y = 0
-    color = (0,0,0)
-    for line in lines:
-        # draw the line on the image
-        draw.text((x, y), line, fill=color, font=font)
-        # update the y position so that we can use it for next line
-        y = y + line_height
-
-    img.save('resources/robford_edit.jpg')
-    file = discord.File('resources/robford_edit.jpg')
-
-    await ctx.channel.send(file=file)
-
-    logger('robford',ctx,False)
-
-
 @commands.command()
 async def ping(ctx):
     logger('ping',ctx,True)
@@ -658,28 +602,6 @@ async def youtube(ctx, *, url:str):
 
 
 @commands.command()
-async def succ(ctx):
-    logger('succ',ctx,True)
-
-    try:
-        channel = ctx.message.author.voice.channel
-        if not channel:
-            await ctx.send('You are not connected to a voice channel')
-
-        voice = get(bot.voice_clients, guild=ctx.guild)
-        if voice and voice.is_connected():
-                await voice.move_to(channel)
-        else:
-            voice = await channel.connect()
-        source = FFmpegPCMAudio('sounds/succ.m4a')
-        player = voice.play(source)
-    except:
-        await ctx.send('You are not connected to a voice channel')
-
-    logger('succ',ctx,False)
-
-
-@commands.command()
 async def oof(ctx):
     logger('oof',ctx,True)
 
@@ -693,7 +615,7 @@ async def oof(ctx):
                 await voice.move_to(channel)
         else:
             voice = await channel.connect()
-        source = FFmpegPCMAudio('sounds/roblox.m4a')
+        source = FFmpegPCMAudio('sounds/oof.m4a')
         player = voice.play(source)
     except:
         await ctx.send('You are not connected to a voice channel')
@@ -784,11 +706,10 @@ async def help(ctx):
     embed.add_field(name='!wolfram', value='wolfram search', inline = False)
     embed.add_field(name='!wolfram2', value='wolfram search but returns an image', inline = False)
     embed.add_field(name='!google', value='usage: !google [keywords]', inline = False)
+    embed.add_field(name='!oof', value='plays /sound/oof.m4a', inline = False)
     embed.add_field(name='!youtube', value='usage: !youtube [youtube link]', inline = False)
     embed.add_field(name='!disconnect', value='disconnects the bot from the voice channel', inline = False)
     embed.add_field(name='!meme ghandi', value='usage: !ghandi (text)', inline = False)
-    embed.add_field(name='!meme dougford', value='usage: !dougford (text)', inline = False)
-    embed.add_field(name='!meme robford', value='usage: !robford (text)', inline = False)
     embed.add_field(name='!meme clown', value='usage: !clown (text)', inline = False)
     embed.add_field(name='!votemute', value='usage: !votemute (tag the user to mute)', inline = False)
     embed.add_field(name='!voteunmute', value='usage: !voteunmute (tag the user to mute)', inline = False)
@@ -815,17 +736,14 @@ def main():
     bot.add_command(youtube)
     bot.add_command(disconnect)
     bot.add_command(ghandi)
-    bot.add_command(dougford)
-    bot.add_command(robford)
     bot.add_command(clown)
-    bot.add_command(succ)
     bot.add_command(oof)
     bot.add_command(meme)
     bot.add_command(votemute)
     bot.add_command(voteunmute)
     bot.add_command(reset)
 
-    bot.run('CLIENT_TOKEN_HERE')
+    bot.run('BOT_TOKEN')
 
 if __name__ == "__main__":
     main()
