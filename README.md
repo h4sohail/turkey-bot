@@ -4,7 +4,7 @@ Simple bot for Discord written in Python3 to be ran on a linux based environment
 Refer to requirements.txt
 # Commands
 !ping: returns the ping  
-!echo: usage= !echo [number of times to echo] [text to echo]  
+!echo: usage= !echo [number of times to echo] "text"  
 !votemute: usage= !votemute (tag the user to mute)  
            Initiates a vote, where users can reply with [yes] or [no] and  
            stores all votes and voters in a dictionary and a list respectively,  
