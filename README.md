@@ -23,8 +23,6 @@ Refer to requirements.txt
 !flip: flips a coin  
 !copypasta: saves text to be recalled later, usage= !copypasta "name" [copypasta here]  
 !pasta: recalls the saved text, usage= !pasta [name]  
-!oof: plays /sounds/roblox.m4a  
-!meme ghandi: generates a meme from ghandi meme template, usage= !ghandi (text)  
-!meme dougford: usage= generates a meme from dougford meme template, usage= !dougford (text)  
-!meme robford: usage= generates a meme from robford meme template, usage= !robford (text)   
+!oof: plays /sounds/oof.m4a  
+!meme ghandi: generates a meme from ghandi meme template, usage= !ghandi (text)     
 !meme clown: usage= usage= generates a meme from clown meme template, usage= !clown (text)  
