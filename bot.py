@@ -23,11 +23,7 @@ bot = commands.Bot(command_prefix=prefix)
 bot.remove_command('help')
 
 # status cycle
-status = cycle(['Hacking the NSA', 'Serving Healthy Food', 'Serving Pizza Again'])
-
-# global variables
-wash_cycle = False  
-user = None
+status = cycle(['Status 1', 'Status 2', 'Status 3'])
 
 vote = False # votemute active or not
 votes = {'yes':0, 'no':0} # vote tally
