@@ -13,17 +13,17 @@ Refer to requirements.txt
 - example: !echo 5 "Hello World"  
 
 !votemute: Initiates a vote, where users can reply with "yes" or "no" and  
-           - - stores all votes in a dictionary and voters in a a list,  
-           - - only allows one active vote to run at a time, and only collects  
-           - - unique votes.  
+            stores all votes in a dictionary and voters in a a list,  
+            only allows one active vote to run at a time, and only collects  
+            unique votes.  
 - usage: !votemute arg1  
 - arg1: string, Discord mention)  
 - example: !votemute @JohnDoe#1234  
 
 !voteunmute: Initiates a vote, where users can reply with "yes" or "no" and  
-           - - stores all votes and voters in a dictionary and a list respectively,  
-           - - only allows one active vote to run at a time, and only collects  
-           - - unique votes.  
+            stores all votes and voters in a dictionary and a list respectively,  
+            only allows one active vote to run at a time, and only collects  
+            unique votes.  
 - usage: !voteunmute arg1  
 - arg1(string, Discord mention)  
 - example: !voteunmute @JohnDoe#1234  
@@ -40,8 +40,8 @@ Refer to requirements.txt
 - example: !removerole "black"  
 
 !wordcloud: generates a wordcloud from the last 5000 messages sent in the server  
-            - - these messages are retreived from the built in cache of the bot,  
-            - - restarting the bot or a crash will clear this cache!  
+             these messages are retreived from the built in cache of the bot,  
+             restarting the bot or a crash will clear this cache!  
 - example: !wordcloud  
 
 !emoji: Returns the input text replaced with emojis  
