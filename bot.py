@@ -407,34 +407,6 @@ async def clown(ctx, *, text:str):
     logger('clown',ctx,False)
 
 
-@meme.command()
-async def ghandi(ctx, *, text:str):
-    logger('ghandi',ctx,True)
-
-    img = Image.open('resources/ghandi.jpg')
-    draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype('resources/arial.ttf', 60)
-    image_size = img.size
-    lines = text_wrap(text, font, image_size[0])
-    line_height = font.getsize('hg')[1]
-
-    x = 0
-    y = 0
-    for line in lines:
-        color = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
-        # draw the line on the image
-        draw.text((x, y), line, fill=color, font=font)
-        # update the y position so that we can use it for next line
-        y = y + line_height
-
-    img.save('resources/ghandi_edit.jpg')
-    file = discord.File('resources/ghandi_edit.jpg')
-
-    await ctx.channel.send(file=file)
-
-    logger('ghandi',ctx,False)
-
-
 @commands.command()
 async def ping(ctx):
     logger('ping',ctx,True)
@@ -467,22 +439,18 @@ async def echo(ctx, n:int, *, content:str):
 
 
 @commands.command()
-async def copypasta(ctx, *, content:str):
+async def copypasta(ctx, filename, content):
     logger('copypasta',ctx,True)
 
     try:
-        #!copypasta pasta_name pasta
-        filename = re.sub('\W+',' ',(content.split()[0]))
         print(f'file name: {filename}')
-        pasta = content.split() # get the copypasta from input
-        del pasta[0]
-        pasta_string = ' '.join(pasta) 
-        print(f'pasta string: {pasta_string}')
+        print(f'copy pasta: {content}')
+        
         dir = f'copypasta/{filename}.txt'
         with open(dir, 'w') as f: #save it to text file
            f.write(f'{pasta_string}\n')
     except:
-        print('something went wrong')
+        print('something went wrong :D')
 
     logger('copypasta',ctx,False)
 
@@ -500,7 +468,7 @@ async def pasta(ctx, filename):
 
 
 @commands.command()
-async def wolfram(ctx, *, content:str):
+async def wolfram(ctx, content):
     logger('wolfram',ctx,True)
 
     wolframAppId = 'JE3KG9-QAQ9KVK5X6'
@@ -516,8 +484,8 @@ async def wolfram(ctx, *, content:str):
 
 
 @commands.command()
-async def wolfram2(ctx, *, content:str):
-    logger('wolfram2',ctx,True)
+async def wolfram_image(ctx, content):
+    logger('wolfram_image',ctx,True)
 
     wolframAppId = 'JE3KG9-QAQ9KVK5X6'
     wolframUrl = 'https://api.wolframalpha.com/v1/simple'
@@ -533,16 +501,16 @@ async def wolfram2(ctx, *, content:str):
 
     await ctx.channel.send(file=file)
     
-    logger('wolfram2',ctx,False)
+    logger('wolfram_image',ctx,False)
 
 
 @commands.command()
-async def google(ctx, *, keywords:str):
+async def google(ctx, keywords):
     logger('google',ctx,True)
     
     response = google_images_download.googleimagesdownload()   #class instantiation
 
-    arguments = {"keywords":keywords, "limit":5,"print_urls":False, "format":"jpg", "safe_search":True}   #creating list of arguments
+    arguments = {"keywords":keywords, "limit":5, "print_urls":False, "safe_search":True}   #creating list of arguments
     paths = response.download(arguments)   #passing the arguments to the function
     my_files = [
     discord.File(paths[0][keywords][random.randint(0,4)]),
@@ -554,7 +522,7 @@ async def google(ctx, *, keywords:str):
 
 
 @commands.command()
-async def youtube(ctx, *, url:str):
+async def youtube(ctx, url):
     logger('youtube',ctx,True)
 
     if os.path.exists('source.m4a'):
@@ -704,12 +672,11 @@ async def help(ctx):
     embed.add_field(name='!emoji', value='emojifys the text', inline = False)
     embed.add_field(name='!wordcloud', value='generates a wordcloud', inline = False)
     embed.add_field(name='!wolfram', value='wolfram search', inline = False)
-    embed.add_field(name='!wolfram2', value='wolfram search but returns an image', inline = False)
+    embed.add_field(name='!wolfram_image', value='wolfram search but returns an image', inline = False)
     embed.add_field(name='!google', value='usage: !google [keywords]', inline = False)
     embed.add_field(name='!oof', value='plays /sound/oof.m4a', inline = False)
     embed.add_field(name='!youtube', value='usage: !youtube [youtube link]', inline = False)
     embed.add_field(name='!disconnect', value='disconnects the bot from the voice channel', inline = False)
-    embed.add_field(name='!meme ghandi', value='usage: !ghandi (text)', inline = False)
     embed.add_field(name='!meme clown', value='usage: !clown (text)', inline = False)
     embed.add_field(name='!votemute', value='usage: !votemute (tag the user to mute)', inline = False)
     embed.add_field(name='!voteunmute', value='usage: !voteunmute (tag the user to mute)', inline = False)
@@ -731,11 +698,10 @@ def main():
     bot.add_command(emoji)
     bot.add_command(wordcloud)
     bot.add_command(wolfram)
-    bot.add_command(wolfram2)
+    bot.add_command(wolfram_image)
     bot.add_command(google)
     bot.add_command(youtube)
     bot.add_command(disconnect)
-    bot.add_command(ghandi)
     bot.add_command(clown)
     bot.add_command(oof)
     bot.add_command(meme)
