@@ -1,5 +1,5 @@
 # Turkey Bot
-Simple bot for Discord written in Python3 to be ran on a linux based environment with Python3 and FFmpeg installed
+Simple bot for Discord written in Python3 to be ran on a linux based environment with Python3 and FFmpeg installed  
 # Usage
 Install Python3 and FFmpeg  
 Fork the project and modify it as needed.  

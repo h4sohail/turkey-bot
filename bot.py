@@ -705,7 +705,7 @@ def main():
     bot.add_command(reset)
 
     if len(sys.argv) < 2:
-        print(f'ERROR 2: No Client Token Provided')
+        print(f'ERROR 0: No Client Token Provided')
         sys.exit
     bot_token = sys.argv[1]
     bot.run(bot_token)
