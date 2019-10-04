@@ -22,13 +22,13 @@ prefix = '!'
 bot = commands.Bot(command_prefix=prefix)
 bot.remove_command('help')
 
-# status cycle
-status = cycle(['Status 1', 'Status 2', 'Status 3'])
+status = cycle(['Status 1', 'Status 2', 'Status 3']) # status cycle
+
+muted = {} # list of muted people
 
 vote = False # votemute active or not
 votes = {'yes':0, 'no':0} # vote tally
 voters = [] # list of voters
-muted = {} # list of muted people
 
 u_vote = False # voteunmute active or not
 u_votes = {'yes':0, 'no':0} # vote tally
@@ -88,9 +88,10 @@ async def on_message(message): # runs on a new message being sent in the server
             print(f'{author} voted no')
     
     else:
-        pass # TO-DO:To be decided
-      
-    dir = 'cache\log.txt' # log all messages sent in the server with a time stamp in the format YYYY:MM:DD HH:MM:SS
+        pass # TO-DO: To be decided
+
+    # log all messages sent in the server with a time stamp in the format YYYY:MM:DD HH:MM:SS  
+    dir = 'cache\log.txt' 
     with open(dir, 'a') as f:
        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
        f.write(f"<{time_stamp}>{message_content}\n")
@@ -129,8 +130,13 @@ async def auto_unmute(): # auto unmutes people and updates the muted
             print(f'auto_unmuted: unmuted {member}')
             del muted[member]
 
-
+#function to log commands
 def logger(func, ctx, start):
+    """
+    func (Type: string): function name
+    start (Type: boolean): start or end of function
+    ctx (Type: object): Discord.context 
+    """
     time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     if start == True:
         print(f'{time_stamp} - Command: {func} | Author: {ctx.message.author}')
@@ -138,7 +144,13 @@ def logger(func, ctx, start):
         print(f'{time_stamp} - Task Finished Succesfully')
 
 
+#used to add text to images
 def text_wrap(text, font, max_width):
+    """
+    text (Type: string): text to be added to the image
+    font (Type: object): Image.Font 
+    max_width (Type: int): image width 
+    """
     lines = []
     # If the width of the text is smaller than image width
     # we don't need to split it, just add it to the lines array
@@ -166,9 +178,6 @@ def text_wrap(text, font, max_width):
 
 #checks if a user is an administrator
 def is_admin(user): 
-    """
-    Checks if the user is an administrator
-    """
     return user.guild_permissions.administrator
 
 
@@ -292,18 +301,11 @@ async def voteunmute(ctx, member:discord.Member=None):
 
 @commands.command()
 async def giverole(ctx, role_name:str, *, color_code:str):
-    ### 
-    # Usage: !giverole "role name here" [html color code here]
-    # You can grab the html color code from here:
-    # https://www.google.com/search?q=color+picker
-    # Html color codes are in the format: #0ecf43
-    # Example usage: !giverole "green is the best" #0ecf43   
-    ###
     logger('giverole',ctx,True)
     
-    if color_code == '#000000': # discord.py was having issues with this color code
+    if color_code == '#000000': # '000000' seems to not behave as expected, therefore it is replaced with '111111' 
         color_code = '#111111'
-        print(f'Color Code Exception 0. Color Replaced With: {color_code}')
+        print(f'Color Code Exception. Color Replaced With: {color_code}')
     else:
         pass
 
@@ -371,7 +373,7 @@ async def wordcloud(ctx):
 
 @commands.group() 
 async def meme(ctx):
-    if ctx.invoked_subcommand is None:
+    if ctx.invoked_subcommand is None: 
         await ctx.send('invalid command :D')
 
 
@@ -379,26 +381,27 @@ async def meme(ctx):
 async def clown(ctx, *, text:str):
     logger('clown',ctx,True)
 
-    img = Image.open('resources/clown.jpg')
-    draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype('resources/arial.ttf', 55)
+    img = Image.open('resources/clown.jpg') # get the clown template
+    draw = ImageDraw.Draw(img) 
+    font = ImageFont.truetype('resources/arial.ttf', 55) # get the font
     image_size = img.size
-    lines = text_wrap(text, font, image_size[0])
-    line_height = font.getsize('hg')[1]
+    lines = text_wrap(text, font, image_size[0]) # split the input text into lines
+    line_height = font.getsize('hg')[1] # get height of the lines
 
-    x = 0
-    y = 0
-    color = (0,0,0)
+    x = 0 # x cordinate of starting position of text
+    y = 0 # y cordinate of starting position of text
+    color = (0,0,0) # rgb color value of the text
+    
     for line in lines:
         # draw the line on the image
         draw.text((x, y), line, fill=color, font=font)
         # update the y position so that we can use it for next line
         y = y + line_height
 
-    img.save('resources/clown_edit.jpg')
-    file = discord.File('resources/clown_edit.jpg')
-
-    await ctx.channel.send(file=file)
+    img.save('resources/clown_edit.jpg') # save the new image
+    file = discord.File('resources/clown_edit.jpg') 
+ 
+    await ctx.channel.send(file=file) # send the new image as an attachment
 
     logger('clown',ctx,False)
 
@@ -421,8 +424,8 @@ async def echo(ctx, n:int, *, content:str):
     if '@everyone' in content:
         return
 
-    index = 0
-    limit = 15
+    index = 0 # counter
+    limit = 15 # maximum number of times to echo text
     if n > 0:
         
         while index < min(n,limit):
@@ -443,7 +446,7 @@ async def copypasta(ctx, filename, content):
         print(f'copy pasta: {content}')
         
         dir = f'copypasta/{filename}.txt'
-        with open(dir, 'w') as f: #save it to text file
+        with open(dir, 'w') as f: #save the copypasta to a text file
            f.write(f'{pasta_string}\n')
     except:
         print('something went wrong :D')
@@ -456,7 +459,7 @@ async def pasta(ctx, filename):
     logger('pasta',ctx,True)
 
     dir = f'copypasta/{filename}.txt'
-    with open(dir, 'r') as f:
+    with open(dir, 'r') as f: #retrieve the copypasta and send it as a message
         pasta = f.read()
         await ctx.send(pasta)
 
@@ -467,14 +470,12 @@ async def pasta(ctx, filename):
 async def wolfram(ctx, content):
     logger('wolfram',ctx,True)
 
-    wolframAppId = 'JE3KG9-QAQ9KVK5X6'
+    wolframAppId = 'APP_ID' #get your app id from here: https://products.wolframalpha.com/simple-api/documentation/
     wolframUrl = 'https://api.wolframalpha.com/v1/result'
     wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
 
-    print('Request: '+ content)
-
-    r = requests.get(wolframUrl, params=wolframParams)
-    await ctx.send(r.text)
+    r = requests.get(wolframUrl, params=wolframParams) #make an http request to get results from wolframalpha with given params
+    await ctx.send(r.text) #send results from wolframalpha
 
     logger('wolfram',ctx,False)
 
@@ -483,19 +484,17 @@ async def wolfram(ctx, content):
 async def wolfram_image(ctx, content):
     logger('wolfram_image',ctx,True)
 
-    wolframAppId = 'JE3KG9-QAQ9KVK5X6'
+    wolframAppId = 'APP_ID' 
     wolframUrl = 'https://api.wolframalpha.com/v1/simple'
     wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
 
-    print('Request: '+ content)
-
     r = requests.get(wolframUrl, params=wolframParams)
-    output = open('data.gif','wb')
+    output = open('data.gif','wb') #save the return as an image
     output.write(r.content)
     output.close()
-    file = discord.File('data.gif')
+    attachment = discord.File('data.gif')
 
-    await ctx.channel.send(file=file)
+    await ctx.channel.send(file=attachment) #send the image as an attachment
     
     logger('wolfram_image',ctx,False)
 
@@ -508,11 +507,11 @@ async def google(ctx, keywords):
 
     arguments = {"keywords":keywords, "limit":5, "print_urls":False, "safe_search":True}   #creating list of arguments
     paths = response.download(arguments)   #passing the arguments to the function
-    my_files = [
-    discord.File(paths[0][keywords][random.randint(0,4)]),
+    attachment = [
+    discord.File(paths[0][keywords][random.randint(0,4)]), #get a random image from the 5 results
     ]
 
-    await ctx.send(files=my_files)
+    await ctx.send(files=attachment) #send the image as an attachment
 
     logger('google',ctx,False)
 
@@ -521,14 +520,14 @@ async def google(ctx, keywords):
 async def youtube(ctx, url):
     logger('youtube',ctx,True)
 
-    if os.path.exists('source.m4a'):
+    if os.path.exists('source.m4a'): #delete the old sound file
         os.remove('source.m4a')
 
     def hook(d):
-        if d['status'] == 'finished':
+        if d['status'] == 'finished': #display status in console
             print('Done downloading, now converting ...')
 
-    options = {
+    options = { #options passed into youtube_dl
         'restrictfilenames' : 'True',
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -536,29 +535,29 @@ async def youtube(ctx, url):
             'preferredcodec': 'm4a',
             'preferredquality': '192',
         }],
-        'progress_hooks': [hook]
+        'progress_hooks': [hook] #progress bar
     }
 
-    with youtube_dl.YoutubeDL(options) as ydl:
+    with youtube_dl.YoutubeDL(options) as ydl: #download audio file from youtube
         ydl.download(['{}'.format(url)])
 
-    for file in os.listdir(os.getcwd()):
+    for file in os.listdir(os.getcwd()): #rename the file for easier access
         if file.endswith('.m4a'):
             print(file)
             os.rename (str(file), 'source.m4a')
     try:
-        channel = ctx.message.author.voice.channel
+        channel = ctx.message.author.voice.channel #check if the user is in a voice channel
     
         if not channel:
             await ctx.send('You are not connected to a voice channel')
 
-        voice = get(bot.voice_clients, guild=ctx.guild)
+        voice = get(bot.voice_clients, guild=ctx.guild) #get the voice channel
         if voice and voice.is_connected():
-            await voice.move_to(channel)
+            await voice.move_to(channel) #connect to the same voice channel
         else:
-            voice = await channel.connect()
-        source = FFmpegPCMAudio('source.m4a')
-        player = voice.play(source)
+            voice = await channel.connect() 
+        source = FFmpegPCMAudio('source.m4a') 
+        player = voice.play(source) #play the audio file
     except:
         await ctx.send('You are not connected to a voice channel')
 
@@ -602,7 +601,7 @@ async def disconnect(ctx):
     logger('disconnect',ctx,True)
 
     voice = get(bot.voice_clients, guild=ctx.guild)
-    await voice.disconnect()
+    await voice.disconnect() #disconnect the bot from a voice channel
     if os.path.exists('source.m4a'):
         os.remove('source.m4a')
 
@@ -613,41 +612,41 @@ async def disconnect(ctx):
 async def emoji(ctx, *, content:str):
    logger('emoji',ctx,True)
 
-   normalText=list(content.lower())
-   emojiText = []
+   regular_text=list(content.lower()) #lowercase the input text and cast it to a list
+   emoji_text = []
 
-   for i in normalText:
+   for i in regular_text: #replace characters with emojis
         if i == '0': 
-            emojiText.append(':zero:')
+            emoji_text.append(':zero:')
         elif i == '1': 
-            emojiText.append(':one:')
+            emoji_text.append(':one:')
         elif i == '2': 
-            emojiText.append(':two:')
+            emoji_text.append(':two:')
         elif i == '3': 
-            emojiText.append(':three:')
+            emoji_text.append(':three:')
         elif i == '4': 
-            emojiText.append(':four:')
+            emoji_text.append(':four:')
         elif i == '5': 
-            emojiText.append(':five:')
+            emoji_text.append(':five:')
         elif i == '6': 
-            emojiText.append(':six:')
+            emoji_text.append(':six:')
         elif i == '7': 
-            emojiText.append(':seven:')
+            emoji_text.append(':seven:')
         elif i == '8': 
-            emojiText.append(':eight:')
+            emoji_text.append(':eight:')
         elif i == '9': 
-            emojiText.append(':nine:')
-        elif i == 'b':
-            emojiText.append(':b:')
+            emoji_text.append(':nine:')
+        elif i == 'b':  #'b' is replaced with a special :b: emote
+            emoji_text.append(':b:')
         elif i == ' ':
-            emojiText.append(' ')
-        elif re.search("[a-z]", i):
-            emojiText.append(':regional_indicator_{}:'.format(i))
+            emoji_text.append(' ')
+        elif re.search("[a-z]", i): #characters from a-z are replaced with :regional_indicator_{char}: emote
+            emoji_text.append(':regional_indicator_{}:'.format(i))
         else:
-            emojiText.append(i)
+            emoji_text.append(i)
 
-   fullStr = ' '.join(emojiText)
-   await ctx.send(fullStr)
+   emoji_text = ' '.join(emoji_text) #list to string
+   await ctx.send(emoji_text)
 
    logger('emoji',ctx,False)
 
@@ -705,7 +704,11 @@ def main():
     bot.add_command(voteunmute)
     bot.add_command(reset)
 
-    bot.run('BOT_TOKEN')
+    if len(sys.argv) < 2:
+        print(f'ERROR 2: No Client Token Provided')
+        sys.exit
+    bot_token = sys.argv[1]
+    bot.run(bot_token)
 
 if __name__ == "__main__":
     main()

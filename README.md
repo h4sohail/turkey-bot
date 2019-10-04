@@ -12,17 +12,17 @@ Refer to requirements.txt
 - arg2: string  
 - example: !echo 5 "Hello World"  
 
-!votemute: Initiates a vote, where users can reply with "yes" or "no" and  
-            stores all votes in a dictionary and voters in a a list,  
-            only allows one active vote to run at a time, and only collects  
+!votemute: Initiates a vote, where users can reply with "yes" or "no".  
+            All votes are stored in a dictionary and voters in a list.  
+            Only allows one voting session to run at a time, and only collects  
             unique votes.  
 - usage: !votemute arg1  
 - arg1: string, Discord mention)  
 - example: !votemute @JohnDoe#1234  
 
-!voteunmute: Initiates a vote, where users can reply with "yes" or "no" and  
-            stores all votes and voters in a dictionary and a list respectively,  
-            only allows one active vote to run at a time, and only collects  
+!voteunmute: Initiates a vote, where users can reply with "yes" or "no".   
+            All votes are stored in a dictionary and voters in a list,  
+            only allows one voting session to run at a time, and only collects  
             unique votes.  
 - usage: !voteunmute arg1  
 - arg1(string, Discord mention)  
