@@ -319,7 +319,7 @@ async def giverole(ctx, role_name:str, *, color_code:str):
     role = discord.utils.get(member.guild.roles, name=role_name)
 
     if role not in guild.roles: # if role doesnt exist, create it
-        await guild.create_role(name=role_name,color=discord.Colour(color_code))
+        await guild.create_role(name=role_name,color=discord.Color(color_code))
     
     if role == None:
         await ctx.send('something went wrong :D')
