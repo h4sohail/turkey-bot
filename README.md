@@ -35,7 +35,7 @@ Refer to requirements.txt
 !giverole: Gives the user a role with default permissions  
 - usage: !giverole arg1 arg2  
 - arg1: string  
-- arg2: hexadecimal  
+- arg2: html color code  
 - example: !giverole "black" #000000  
   
 !removerole: Removes a role from the user  
@@ -92,9 +92,7 @@ Refer to requirements.txt
 - example: !pasta "python"  
 
 !oof: Plays the audio from /sounds/oof.m4a   
-- usage: !youtube arg1  
-- arg1: string  
-- example: !youtube "https://www.youtube.com/watch?v=_4IRMYuE1hI"  
+- usage: !oof  
 
 !meme clown: Returns an image with text added from the user input  
 - usage: !meme clown arg1  
