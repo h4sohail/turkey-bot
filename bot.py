@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import asyncio, random, time, re, os, sys, json, shutil
+import asyncio, random, time, re, os, sys, json, shutil, subprocess
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -181,22 +181,48 @@ def is_admin(user):
     return user.guild_permissions.administrator
 
 
+# Calls git commands from terminal
+def git(*args):
+    return subprocess.check_call(['git'] + list(args))
+
+
+@commands.command()
+async def update(ctx):
+
+    if is_admin(ctx.message.author):
+        if os.path.exists('turkey_bot'): # cleanup
+            shutil.rmtree('turkey_bot')
+        else:
+            pass
+        git('clone', 'https://github.com/h4sohail/turkey_bot.git') # Clones repo
+        if os.path.exists('turkey_bot/bot.py'): # move file to working directory
+            os.replace('turkey_bot/bot.py', '../turkey_bot/bot.py')
+        else:
+            pass
+        if os.path.exists('turkey_bot'): # cleanup
+            shutil.rmtree('turkey_bot')
+        else:
+            pass
+    else:
+        await ctx.send('You are not authorized to use this command.')
+
+
 #clears the cache and restarts the bot
 @commands.command()
 async def reset(ctx):
     logger('reset',ctx,True)
     
     if is_admin(ctx.message.author):
-        bot.clear() # clear internal cache
+        await ctx.send('clearing the cache')
         if os.path.exists('word_cloud.png'): # delete the last word cloud
             os.remove('word_cloud.png')
-        if os.path.exists('/home/ubuntu/dining_services_bot/downloads'): # delete cached google images
-            shutil.rmtree('/home/ubuntu/dining_services_bot/downloads')
+        if os.path.exists('downloads'): # delete cached google images
+            shutil.rmtree('downloads')
         if os.path.exists('source.m4a'): # delete the last youtube sound file 
             os.remove('source.m4a')
         await ctx.send('cache cleared')
         await ctx.send('restarting the bot')
-        os.execv('/home/ubuntu/dining_services_bot/bot.py', sys.argv) # restart the bot
+        os.execv('/home/ubuntu/dining_services_bot/turkey_bot/bot.py', sys.argv) # restart the bot
     else:
         await ctx.send('you are not authorized to use this command :rage:')
 
@@ -703,6 +729,7 @@ def main():
     bot.add_command(votemute)
     bot.add_command(voteunmute)
     bot.add_command(reset)
+    bot.add_command(update)
 
     if len(sys.argv) < 2:
         print(f'ERROR 0: No Client Token Provided')
