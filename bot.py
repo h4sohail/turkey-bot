@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import asyncio, random, time, re, os, sys, json, shutil, subprocess
+import asyncio, random, time, re, os, sys, json, shutil, subprocess, stat
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -199,7 +199,7 @@ async def update(ctx):
         git('clone', 'https://github.com/h4sohail/turkey_bot.git') # Clones repo
         if os.path.exists('turkey_bot/bot.py'): # move file to working directory
             os.replace('turkey_bot/bot.py', '../turkey_bot/bot.py')
-            import stat # set execute permissions
+            # set execute permissions
             st = os.stat('bot.py') 
             os.chmod('bot.py', st.st_mode | stat.S_IEXEC)
         if os.path.exists('turkey_bot'): # cleanup
