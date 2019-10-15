@@ -104,7 +104,7 @@ async def status_loop(): # changes the bot's status every 10 seconds
     await bot.change_presence(activity=discord.Game(next(status)))
 
 
-@tasks.loop(seconds=10) # TO-DO
+@tasks.loop(seconds=10) # work in progress
 async def muted_list_export(): # exports the list of muted users every 10 seconds
     muted_json = json.dumps(muted) # this function needs work, is not finished yet.
     dir = 'muted.json'
@@ -112,7 +112,7 @@ async def muted_list_export(): # exports the list of muted users every 10 second
         json.dump(muted_json, f)
 
 
-@tasks.loop(seconds=10) # TO-DO
+@tasks.loop(seconds=10) # work in progress
 async def muted_list_import(): # imports the list of muted users every 10 seconds
     #global
     #dir = 'muted.json'
@@ -130,7 +130,7 @@ async def auto_unmute(): # auto unmutes people and updates the muted
             print(f'auto_unmuted: unmuted {member}')
             del muted[member]
 
-#function to log commands
+# function to log commands
 def logger(func, ctx, start):
     """
     func (Type: string): function name
@@ -144,7 +144,7 @@ def logger(func, ctx, start):
         print(f'{time_stamp} - Task Finished Succesfully')
 
 
-#used to add text to images
+# used to add text to images
 def text_wrap(text, font, max_width):
     """
     text (Type: string): text to be added to the image
@@ -176,12 +176,12 @@ def text_wrap(text, font, max_width):
     return lines
 
 
-#checks if a user is an administrator
+# checks if a user is an administrator
 def is_admin(user): 
     return user.guild_permissions.administrator
 
 
-# Calls git commands from terminal
+# calls git commands from terminal
 def git(*args):
     return subprocess.check_call(['git'] + list(args))
 
@@ -216,7 +216,6 @@ async def update(ctx):
     logger('update',ctx,False)
 
 
-#clears the cache and restarts the bot
 @commands.command()
 async def reset(ctx):
     logger('reset',ctx,True)
@@ -481,7 +480,7 @@ async def copypasta(ctx, filename, content):
         print(f'copy pasta: {content}')
         
         dir = f'copypasta/{filename}.txt'
-        with open(dir, 'w') as f: #save the copypasta to a text file
+        with open(dir, 'w') as f: # save the copypasta to a text file
            f.write(f'{pasta_string}\n')
     except:
         print('something went wrong :D')
@@ -494,7 +493,7 @@ async def pasta(ctx, filename):
     logger('pasta',ctx,True)
 
     dir = f'copypasta/{filename}.txt'
-    with open(dir, 'r') as f: #retrieve the copypasta and send it as a message
+    with open(dir, 'r') as f: # retrieve the copypasta and send it as a message
         pasta = f.read()
         await ctx.send(pasta)
 
@@ -505,12 +504,12 @@ async def pasta(ctx, filename):
 async def wolfram(ctx, content):
     logger('wolfram',ctx,True)
 
-    wolframAppId = 'APP_ID' #get your app id from here: https://products.wolframalpha.com/simple-api/documentation/
+    wolframAppId = 'APP_ID' # get your app id from here: https://products.wolframalpha.com/simple-api/documentation/
     wolframUrl = 'https://api.wolframalpha.com/v1/result'
     wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
 
-    r = requests.get(wolframUrl, params=wolframParams) #make an http request to get results from wolframalpha with given params
-    await ctx.send(r.text) #send results from wolframalpha
+    r = requests.get(wolframUrl, params=wolframParams) # make an http request to get results from wolframalpha with given params
+    await ctx.send(r.text) # send results from wolframalpha
 
     logger('wolfram',ctx,False)
 
@@ -524,12 +523,12 @@ async def wolfram_image(ctx, content):
     wolframParams = {'i':'{}'.format(content),'appid':'{}'.format(wolframAppId)}
 
     r = requests.get(wolframUrl, params=wolframParams)
-    output = open('data.gif','wb') #save the return as an image
+    output = open('data.gif','wb') # save the return as an image
     output.write(r.content)
     output.close()
     attachment = discord.File('data.gif')
 
-    await ctx.channel.send(file=attachment) #send the image as an attachment
+    await ctx.channel.send(file=attachment) # send the image as an attachment
     
     logger('wolfram_image',ctx,False)
 
@@ -538,15 +537,15 @@ async def wolfram_image(ctx, content):
 async def google(ctx, keywords):
     logger('google',ctx,True)
     
-    response = google_images_download.googleimagesdownload()   #class instantiation
+    response = google_images_download.googleimagesdownload()   # class instantiation
 
-    arguments = {"keywords":keywords, "limit":5, "print_urls":False, "safe_search":True}   #creating list of arguments
-    paths = response.download(arguments)   #passing the arguments to the function
+    arguments = {"keywords":keywords, "limit":5, "print_urls":False, "safe_search":True}   # creating list of arguments
+    paths = response.download(arguments)   # passing the arguments to the function
     attachment = [
-    discord.File(paths[0][keywords][random.randint(0,4)]), #get a random image from the 5 results
+    discord.File(paths[0][keywords][random.randint(0,4)]), # get a random image from the 5 results
     ]
 
-    await ctx.send(files=attachment) #send the image as an attachment
+    await ctx.send(files=attachment) # send the image as an attachment
 
     logger('google',ctx,False)
 
@@ -555,14 +554,14 @@ async def google(ctx, keywords):
 async def youtube(ctx, url):
     logger('youtube',ctx,True)
 
-    if os.path.exists('source.m4a'): #delete the old sound file
+    if os.path.exists('source.m4a'): # delete the old sound file
         os.remove('source.m4a')
 
     def hook(d):
-        if d['status'] == 'finished': #display status in console
+        if d['status'] == 'finished': # display status in console
             print('Done downloading, now converting ...')
 
-    options = { #options passed into youtube_dl
+    options = { # options passed into youtube_dl
         'restrictfilenames' : 'True',
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -570,29 +569,29 @@ async def youtube(ctx, url):
             'preferredcodec': 'm4a',
             'preferredquality': '192',
         }],
-        'progress_hooks': [hook] #progress bar
+        'progress_hooks': [hook] # progress bar
     }
 
-    with youtube_dl.YoutubeDL(options) as ydl: #download audio file from youtube
+    with youtube_dl.YoutubeDL(options) as ydl: # download audio file from youtube
         ydl.download(['{}'.format(url)])
 
-    for file in os.listdir(os.getcwd()): #rename the file for easier access
+    for file in os.listdir(os.getcwd()): # rename the file for easier access
         if file.endswith('.m4a'):
             print(file)
             os.rename (str(file), 'source.m4a')
     try:
-        channel = ctx.message.author.voice.channel #check if the user is in a voice channel
+        channel = ctx.message.author.voice.channel # check if the user is in a voice channel
     
         if not channel:
             await ctx.send('You are not connected to a voice channel')
 
-        voice = get(bot.voice_clients, guild=ctx.guild) #get the voice channel
+        voice = get(bot.voice_clients, guild=ctx.guild) # get the voice channel
         if voice and voice.is_connected():
-            await voice.move_to(channel) #connect to the same voice channel
+            await voice.move_to(channel) # connect to the same voice channel
         else:
             voice = await channel.connect() 
         source = FFmpegPCMAudio('source.m4a') 
-        player = voice.play(source) #play the audio file
+        player = voice.play(source) # play the audio file
     except:
         await ctx.send('You are not connected to a voice channel')
 
@@ -636,7 +635,7 @@ async def disconnect(ctx):
     logger('disconnect',ctx,True)
 
     voice = get(bot.voice_clients, guild=ctx.guild)
-    await voice.disconnect() #disconnect the bot from a voice channel
+    await voice.disconnect() # disconnect the bot from a voice channel
     if os.path.exists('source.m4a'):
         os.remove('source.m4a')
 
@@ -647,10 +646,10 @@ async def disconnect(ctx):
 async def emoji(ctx, *, content:str):
    logger('emoji',ctx,True)
 
-   regular_text=list(content.lower()) #lowercase the input text and cast it to a list
+   regular_text=list(content.lower()) # lowercase the input text and cast it to a list
    emoji_text = []
 
-   for i in regular_text: #replace characters with emojis
+   for i in regular_text: # replace characters with emojis
         if i == '0': 
             emoji_text.append(':zero:')
         elif i == '1': 
@@ -671,16 +670,16 @@ async def emoji(ctx, *, content:str):
             emoji_text.append(':eight:')
         elif i == '9': 
             emoji_text.append(':nine:')
-        elif i == 'b':  #'b' is replaced with a special :b: emote
+        elif i == 'b':  # 'b' is replaced with a special :b: emote
             emoji_text.append(':b:')
         elif i == ' ':
             emoji_text.append(' ')
-        elif re.search("[a-z]", i): #characters from a-z are replaced with :regional_indicator_{char}: emote
+        elif re.search("[a-z]", i): # characters from a-z are replaced with :regional_indicator_{char}: emote
             emoji_text.append(':regional_indicator_{}:'.format(i))
         else:
             emoji_text.append(i)
 
-   emoji_text = ' '.join(emoji_text) #list to string
+   emoji_text = ' '.join(emoji_text) # list to string
    await ctx.send(emoji_text)
 
    logger('emoji',ctx,False)
@@ -717,7 +716,10 @@ async def help(ctx):
 
  
 def main():
-    
+    if len(sys.argv) < 2:
+        print(f'ERROR 0: No Client Token Provided')
+        sys.exit
+
     bot.add_command(ping)
     bot.add_command(echo)
     bot.add_command(giverole)
@@ -740,9 +742,6 @@ def main():
     bot.add_command(reset)
     bot.add_command(update)
 
-    if len(sys.argv) < 2:
-        print(f'ERROR 0: No Client Token Provided')
-        sys.exit
     bot_token = sys.argv[1]
     bot.run(bot_token)
 
