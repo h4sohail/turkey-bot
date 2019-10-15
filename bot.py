@@ -196,20 +196,14 @@ async def update(ctx):
             os.remove('bot.py')
         if os.path.exists('turkey_bot'): # remove old cloned directory
             shutil.rmtree('turkey_bot')
-        else:
-            pass
         git('clone', 'https://github.com/h4sohail/turkey_bot.git') # Clones repo
         if os.path.exists('turkey_bot/bot.py'): # move file to working directory
             os.replace('turkey_bot/bot.py', '../turkey_bot/bot.py')
             import stat # set execute permissions
             st = os.stat('bot.py') 
             os.chmod('bot.py', st.st_mode | stat.S_IEXEC)
-        else:
-            pass
         if os.path.exists('turkey_bot'): # cleanup
             shutil.rmtree('turkey_bot')
-        else:
-            pass
     else:
         await ctx.send('You are not authorized to use this command.')
     
