@@ -7,6 +7,14 @@ Run the project as ```python3 bot.py bot_token_here```
 # Requirements
 Refer to requirements.txt
 # Commands
+!update: Updates the bot from github  
+Note: Requires the user to be an Administrator  
+- usage: !update  
+
+!reset: Restarts the bot  
+Note: Requires the user to be an Administrator  
+- usage: !reset  
+
 !ping: Returns the ping  
 - example: !ping  
 
