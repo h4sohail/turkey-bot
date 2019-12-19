@@ -16,7 +16,7 @@ Note: Requires the user to be an Administrator
 - usage: !reset  
 
 !ping: Returns the ping  
-- example: !ping  
+- usage: !ping  
 
 !echo: Returns the input  
 - usage: !echo arg1 arg2  
@@ -54,7 +54,7 @@ Note: Requires the user to be an Administrator
 !wordcloud: generates a wordcloud from the last 5000 messages sent in the server  
              these messages are retreived from the built in cache of the bot,  
              restarting the bot or a crash will clear this cache!  
-- example: !wordcloud  
+- usage: !wordcloud  
 
 !emoji: Returns the input text replaced with emojis  
 - usage: !emoji arg1  
