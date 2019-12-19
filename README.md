@@ -29,7 +29,7 @@ Note: Requires the user to be an Administrator
             Only allows one voting session to run at a time, and only collects  
             unique votes.  
 - usage: !votemute arg1  
-- arg1: string, Discord mention)  
+- arg1: string, Discord mention  
 - example: !votemute @JohnDoe#1234  
 
 !voteunmute: Initiates a vote, where users can reply with "yes" or "no".   
@@ -37,7 +37,7 @@ Note: Requires the user to be an Administrator
             only allows one voting session to run at a time, and only collects  
             unique votes.  
 - usage: !voteunmute arg1  
-- arg1(string, Discord mention)  
+- arg1: string, Discord mention  
 - example: !voteunmute @JohnDoe#1234  
 
 !giverole: Gives the user a role with default permissions  
