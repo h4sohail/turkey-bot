@@ -224,7 +224,7 @@ async def reset(ctx):
             os.remove('source.m4a')
         await ctx.send('cache cleared')
         await ctx.send('restarting the bot')
-        os.execv('/home/ubuntu/dining_services_bot/turkey_bot/bot.py', sys.argv) # restart the bot
+        os.execv('turkey_bot/bot.py', sys.argv) # restart the bot
     else:
         await ctx.send('you are not authorized to use this command :rage:')
 
