@@ -527,6 +527,23 @@ async def oof(ctx):
     player = voice.play(source)
 
 
+@commands.command()
+async def echoes(ctx):
+    logger('echoes',ctx)
+
+    
+    channel = ctx.message.author.voice.channel
+    if not channel:
+        await ctx.send('You are not connected to a voice channel')
+
+    voice = get(bot.voice_clients, guild=ctx.guild)
+    if voice and voice.is_connected():
+            await voice.move_to(channel)
+    else:
+        voice = await channel.connect()
+    source = FFmpegPCMAudio('sounds/echoes.mp3')
+    player = voice.play(source)
+
 
 @commands.command()
 async def flip(ctx):
@@ -605,7 +622,8 @@ async def help(ctx):
     embed.add_field(name='!wolfram', value='wolfram search', inline = False)
     embed.add_field(name='!wolfram_image', value='wolfram search but returns an image', inline = False)
     embed.add_field(name='!google', value='usage: !google [keywords]', inline = False)
-    embed.add_field(name='!oof', value='plays /sound/oof.m4a', inline = False)
+    embed.add_field(name='!oof', value='plays /sounds/oof.m4a', inline = False)
+    embed.add_field(name='!echoes', value='plays /sounds/echoes.mp3', inline = False)
     embed.add_field(name='!youtube', value='usage: !youtube [youtube link]', inline = False)
     embed.add_field(name='!disconnect', value='disconnects the bot from the voice channel', inline = False)
     embed.add_field(name='!meme clown', value='usage: !clown (text)', inline = False)
@@ -633,6 +651,7 @@ def main():
   bot.add_command(disconnect)
   bot.add_command(clown)
   bot.add_command(oof)
+  bot.add_command(echoes)
   bot.add_command(meme)
   bot.add_command(votemute)
   bot.add_command(voteunmute)
