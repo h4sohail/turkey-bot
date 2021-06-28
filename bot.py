@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import asyncio, random, time, re, os, sys, json, shutil, subprocess, stat
+import asyncio, random, time, re, os, sys, json, shutil, stat
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -16,6 +16,8 @@ from itertools import cycle
 from google_images_download import google_images_download
 from PIL import Image, ImageDraw, ImageFont
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+
+from util import logger, text_wrap, is_admin, git
 
 # command prefix, bot initialization and removal of default 'help' command
 prefix = '!'
@@ -129,57 +131,6 @@ async def auto_unmute(): # auto unmutes people and updates the muted
             await  member.remove_roles(role)
             print(f'auto_unmuted: unmuted {member}')
             del muted[member]
-
-# function to log commands
-def logger(commandName, ctx):
-    """
-    commandName (Type: string): command Name name
-    ctx (Type: object): Discord.context 
-    """
-    time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(f'{time_stamp} - Command: {commandName} | Author: {ctx.message.author}')
-
-
-# used to add text to images
-def text_wrap(text, font, max_width):
-    """
-    text (Type: string): text to be added to the image
-    font (Type: object): Image.Font 
-    max_width (Type: int): image width 
-    """
-    lines = []
-    # If the width of the text is smaller than image width
-    # we don't need to split it, just add it to the lines array
-    # and return
-    if font.getsize(text)[0] <= max_width:
-        lines.append(text) 
-    else:
-        # split the line by spaces to get words
-        words = text.split(' ')  
-        i = 0
-        # append every word to a line while its width is shorter than image width
-        while i < len(words):
-            line = ''         
-            while i < len(words) and font.getsize(line + words[i])[0] <= max_width:                
-                line = line + words[i] + " "
-                i += 1
-            if not line:
-                line = words[i]
-                i += 1
-            # when the line gets longer than the max width do not append the word, 
-            # add the line to the lines array
-            lines.append(line)    
-    return lines
-
-
-# checks if a user is an administrator
-def is_admin(user): 
-    return user.guild_permissions.administrator
-
-
-# calls git commands from terminal
-def git(*args):
-    return subprocess.check_call(['git'] + list(args))
 
 
 @commands.command()
