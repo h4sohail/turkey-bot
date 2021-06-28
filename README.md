@@ -1,9 +1,12 @@
 # Turkey Bot
 Simple bot for Discord written in Python3 to be ran on a linux based environment with FFmpeg installed  
 # Usage
-Install Python3 and FFmpeg  
+Download and extract ffmpeg: https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z  
+Add the `ffmpeg/bin` to your path  
+Run `ffmpeg -version` to make sure it's working  
 Fork the project and modify it as needed.  
-Run the project as ```python3 bot.py bot_token_here```  
+Export the discord bot's token `export DISCORD_BOT_TOKEN=token-here`  
+Run the project as ```python3 bot.py```  
 # Requirements
 Refer to requirements.txt
 # Commands
