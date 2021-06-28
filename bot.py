@@ -143,16 +143,16 @@ async def update(ctx):
         await ctx.send('updating the bot')
         if os.path.exists('bot.py'): # remove the old source file 
             os.remove('bot.py')
-        if os.path.exists('turkey_bot'): # remove old cloned directory
-            shutil.rmtree('turkey_bot')
-        git('clone', 'https://github.com/h4sohail/turkey_bot.git') # Clones repo
-        if os.path.exists('turkey_bot/bot.py'): # move file to working directory
-            os.replace('turkey_bot/bot.py', '../turkey_bot/bot.py')
+        if os.path.exists('turkey-bot'): # remove old cloned directory
+            shutil.rmtree('turkey-bot')
+        git('clone', 'https://github.com/h4sohail/turkey-bot.git') # Clones repo
+        if os.path.exists('turkey-bot/bot.py'): # move file to working directory
+            os.replace('turkey-bot/bot.py', '../turkey-bot/bot.py')
             # set execute permissions
             st = os.stat('bot.py') 
             os.chmod('bot.py', st.st_mode | stat.S_IEXEC)
-        if os.path.exists('turkey_bot'): # cleanup
-            shutil.rmtree('turkey_bot')
+        if os.path.exists('turkey-bot'): # cleanup
+            shutil.rmtree('turkey-bot')
     else:
         await ctx.send('You are not authorized to use this command.')
 
@@ -171,7 +171,7 @@ async def reset(ctx):
             os.remove('source.m4a')
         await ctx.send('cache cleared')
         await ctx.send('restarting the bot')
-        os.execv('turkey_bot/bot.py', sys.argv) # restart the bot
+        os.execv('turkey-bot/bot.py', sys.argv) # restart the bot
     else:
         await ctx.send('you are not authorized to use this command :rage:')
 
