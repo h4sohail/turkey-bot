@@ -131,17 +131,13 @@ async def auto_unmute(): # auto unmutes people and updates the muted
             del muted[member]
 
 # function to log commands
-def logger(func, ctx, start):
+def logger(commandName, ctx):
     """
-    func (Type: string): function name
-    start (Type: boolean): start or end of function
+    commandName (Type: string): command Name name
     ctx (Type: object): Discord.context 
     """
     time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    if start == True:
-        print(f'{time_stamp} - Command: {func} | Author: {ctx.message.author}')
-    else:
-        print(f'{time_stamp} - Task Finished Succesfully')
+    print(f'{time_stamp} - Command: {commandName} | Author: {ctx.message.author}')
 
 
 # used to add text to images
@@ -188,7 +184,7 @@ def git(*args):
 
 @commands.command()
 async def update(ctx):
-    logger('update',ctx,True)
+    logger('update',ctx)
 
     if is_admin(ctx.message.author): 
         await ctx.send('updating the bot')
@@ -207,12 +203,12 @@ async def update(ctx):
     else:
         await ctx.send('You are not authorized to use this command.')
     
-    logger('update',ctx,False)
+    logger('update',ctx)
 
 
 @commands.command()
 async def reset(ctx):
-    logger('reset',ctx,True)
+    logger('reset',ctx)
     
     if is_admin(ctx.message.author):
         await ctx.send('clearing the cache')
@@ -228,12 +224,12 @@ async def reset(ctx):
     else:
         await ctx.send('you are not authorized to use this command :rage:')
 
-    logger('reset',ctx,False)
+    logger('reset',ctx)
 
 
 @commands.command()
 async def votemute(ctx, member:discord.Member=None):
-    logger('votemute',ctx,True)
+    logger('votemute',ctx)
     
     global vote
     global votes
@@ -279,12 +275,12 @@ async def votemute(ctx, member:discord.Member=None):
     vote = False
     votes = {'yes':0, 'no':0}
    
-    logger('votemute',ctx,False)
+    logger('votemute',ctx)
 
 
 @commands.command()
 async def voteunmute(ctx, member:discord.Member=None):
-    logger('voteunmute',ctx,True)
+    logger('voteunmute',ctx)
 
     global u_vote
     global u_votes
@@ -324,12 +320,12 @@ async def voteunmute(ctx, member:discord.Member=None):
     u_vote = False
     u_votes = {'yes':0, 'no':0}
        
-    logger('voteunmute',ctx,False)
+    logger('voteunmute',ctx)
 
 
 @commands.command()
 async def giverole(ctx, role_name:str, *, color_code:str):
-    logger('giverole',ctx,True)
+    logger('giverole',ctx)
     
     if color_code == '#000000': # '000000' seems to not behave as expected, therefore it is replaced with '111111' 
         color_code = '#111111'
@@ -355,12 +351,12 @@ async def giverole(ctx, role_name:str, *, color_code:str):
     await member.add_roles(role) # assign the role to the member
     await ctx.send('role added')
 
-    logger('giverole',ctx,False)
+    logger('giverole',ctx)
 
 
 @commands.command()
 async def removerole(ctx, role_name:str):
-    logger('removerole',ctx,True)
+    logger('removerole',ctx)
 
     member = ctx.author
     role = discord.utils.get(member.guild.roles, name=role_name)
@@ -370,12 +366,12 @@ async def removerole(ctx, role_name:str):
         await  member.remove_roles(role)
         await ctx.send('role removed')
 
-    logger('removerole',ctx,False)
+    logger('removerole',ctx)
 
 
 @commands.command()
 async def wordcloud(ctx):
-    logger('wordcloud',ctx,True)
+    logger('wordcloud',ctx)
     
     messages = [] 
 
@@ -396,7 +392,7 @@ async def wordcloud(ctx):
     file = discord.File('word_cloud.png') # create an attachment
     await ctx.channel.send(file=file) # send the attachment
     
-    logger('wordcloud',ctx,False)
+    logger('wordcloud',ctx)
 
 
 @commands.group() 
@@ -407,7 +403,7 @@ async def meme(ctx):
 
 @meme.command()
 async def clown(ctx, *, text:str):
-    logger('clown',ctx,True)
+    logger('clown',ctx)
 
     img = Image.open('resources/clown.jpg') # get the clown template
     draw = ImageDraw.Draw(img) 
@@ -431,23 +427,23 @@ async def clown(ctx, *, text:str):
  
     await ctx.channel.send(file=file) # send the new image as an attachment
 
-    logger('clown',ctx,False)
+    logger('clown',ctx)
 
 
 @commands.command()
 async def ping(ctx):
-    logger('ping',ctx,True)
+    logger('ping',ctx)
 
     latency = bot.latency 
     await ctx.send(latency)
     await ctx.send(':ping_pong:')
 
-    logger('ping',ctx,False)
+    logger('ping',ctx)
 
 
 @commands.command()
 async def echo(ctx, n:int, *, content:str):
-    logger('echo',ctx,True)
+    logger('echo',ctx)
     
     if '@everyone' in content:
         return
@@ -462,12 +458,12 @@ async def echo(ctx, n:int, *, content:str):
     else:
         await ctx.send(content)
 
-    logger('echo',ctx,False)
+    logger('echo',ctx)
 
 
 @commands.command()
 async def copypasta(ctx, filename, content):
-    logger('copypasta',ctx,True)
+    logger('copypasta',ctx)
 
     try:
         print(f'file name: {filename}')
@@ -479,24 +475,24 @@ async def copypasta(ctx, filename, content):
     except:
         print('something went wrong :D')
 
-    logger('copypasta',ctx,False)
+    logger('copypasta',ctx)
 
 
 @commands.command()
 async def pasta(ctx, filename):
-    logger('pasta',ctx,True)
+    logger('pasta',ctx)
 
     dir = f'copypasta/{filename}.txt'
     with open(dir, 'r') as f: # retrieve the copypasta and send it as a message
         pasta = f.read()
         await ctx.send(pasta)
 
-    logger('pasta',ctx,False)
+    logger('pasta',ctx)
 
 
 @commands.command()
 async def wolfram(ctx, content):
-    logger('wolfram',ctx,True)
+    logger('wolfram',ctx)
 
     wolframAppId = 'APP_ID' # get your app id from here: https://products.wolframalpha.com/simple-api/documentation/
     wolframUrl = 'https://api.wolframalpha.com/v1/result'
@@ -505,12 +501,12 @@ async def wolfram(ctx, content):
     r = requests.get(wolframUrl, params=wolframParams) # make an http request to get results from wolframalpha with given params
     await ctx.send(r.text) # send results from wolframalpha
 
-    logger('wolfram',ctx,False)
+    logger('wolfram',ctx)
 
 
 @commands.command()
 async def wolfram_image(ctx, content):
-    logger('wolfram_image',ctx,True)
+    logger('wolfram_image',ctx)
 
     wolframAppId = 'APP_ID' 
     wolframUrl = 'https://api.wolframalpha.com/v1/simple'
@@ -524,12 +520,12 @@ async def wolfram_image(ctx, content):
 
     await ctx.channel.send(file=attachment) # send the image as an attachment
     
-    logger('wolfram_image',ctx,False)
+    logger('wolfram_image',ctx)
 
 
 @commands.command()
 async def google(ctx, keywords):
-    logger('google',ctx,True)
+    logger('google',ctx)
     
     response = google_images_download.googleimagesdownload()   # class instantiation
 
@@ -541,12 +537,12 @@ async def google(ctx, keywords):
 
     await ctx.send(files=attachment) # send the image as an attachment
 
-    logger('google',ctx,False)
+    logger('google',ctx)
 
 
 @commands.command()
 async def youtube(ctx, url):
-    logger('youtube',ctx,True)
+    logger('youtube',ctx)
 
     if os.path.exists('source.m4a'): # delete the old sound file
         os.remove('source.m4a')
@@ -589,12 +585,12 @@ async def youtube(ctx, url):
     except:
         await ctx.send('You are not connected to a voice channel')
 
-    logger('youtube',ctx,False)
+    logger('youtube',ctx)
 
 
 @commands.command()
 async def oof(ctx):
-    logger('oof',ctx,True)
+    logger('oof',ctx)
 
     try:
         channel = ctx.message.author.voice.channel
@@ -611,34 +607,34 @@ async def oof(ctx):
     except:
         await ctx.send('You are not connected to a voice channel')
 
-    logger('oof',ctx,False)
+    logger('oof',ctx)
 
 
 @commands.command()
 async def flip(ctx):
-    logger('flip',ctx,True)
+    logger('flip',ctx)
 
     options=['Heads','Tails']
     await ctx.send('You rolled ' + options[random.randint(0,1)])
 
-    logger('flip',ctx,False)
+    logger('flip',ctx)
 
 
 @commands.command()
 async def disconnect(ctx):
-    logger('disconnect',ctx,True)
+    logger('disconnect',ctx)
 
     voice = get(bot.voice_clients, guild=ctx.guild)
     await voice.disconnect() # disconnect the bot from a voice channel
     if os.path.exists('source.m4a'):
         os.remove('source.m4a')
 
-    logger('disconnect',ctx,False)
+    logger('disconnect',ctx)
 
 
 @commands.command()
 async def emoji(ctx, *, content:str):
-   logger('emoji',ctx,True)
+   logger('emoji',ctx)
 
    regular_text=list(content.lower()) # lowercase the input text and cast it to a list
    emoji_text = []
@@ -676,12 +672,12 @@ async def emoji(ctx, *, content:str):
    emoji_text = ' '.join(emoji_text) # list to string
    await ctx.send(emoji_text)
 
-   logger('emoji',ctx,False)
+   logger('emoji',ctx)
 
 
 @commands.command()
 async def help(ctx):
-    logger('help',ctx,True)
+    logger('help',ctx)
 
     embed = discord.Embed(title='Available Commands')
 
@@ -706,38 +702,35 @@ async def help(ctx):
 
     await ctx.send(embed=embed)
 
-    logger('help',ctx,False)
+    logger('help',ctx)
 
  
 def main():
-    if len(sys.argv) < 2:
-        print(f'ERROR 0: No Client Token Provided')
-        sys.exit
+  bot.add_command(help)
+  bot.add_command(ping)
+  bot.add_command(echo)
+  bot.add_command(giverole)
+  bot.add_command(removerole)
+  bot.add_command(flip)
+  bot.add_command(copypasta)
+  bot.add_command(pasta)
+  bot.add_command(emoji)
+  bot.add_command(wordcloud)
+  bot.add_command(wolfram)
+  bot.add_command(wolfram_image)
+  bot.add_command(google)
+  bot.add_command(youtube)
+  bot.add_command(disconnect)
+  bot.add_command(clown)
+  bot.add_command(oof)
+  bot.add_command(meme)
+  bot.add_command(votemute)
+  bot.add_command(voteunmute)
+  bot.add_command(reset)
+  bot.add_command(update)
 
-    bot.add_command(ping)
-    bot.add_command(echo)
-    bot.add_command(giverole)
-    bot.add_command(removerole)
-    bot.add_command(flip)
-    bot.add_command(copypasta)
-    bot.add_command(pasta)
-    bot.add_command(emoji)
-    bot.add_command(wordcloud)
-    bot.add_command(wolfram)
-    bot.add_command(wolfram_image)
-    bot.add_command(google)
-    bot.add_command(youtube)
-    bot.add_command(disconnect)
-    bot.add_command(clown)
-    bot.add_command(oof)
-    bot.add_command(meme)
-    bot.add_command(votemute)
-    bot.add_command(voteunmute)
-    bot.add_command(reset)
-    bot.add_command(update)
-
-    bot_token = sys.argv[1]
-    bot.run(bot_token)
+  bot_token = os.environ.get('DISCORD_BOT_TOKEN')
+  bot.run(bot_token)
 
 if __name__ == "__main__":
     main()
