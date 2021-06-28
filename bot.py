@@ -564,10 +564,9 @@ async def youtube(ctx, url):
 
     try:
       vc = await voice_channel.connect()
+      vc.play(discord.FFmpegPCMAudio('source.m4a'))
     except:
-      print(f"something went wrong :)")
-
-    vc.play(discord.FFmpegPCMAudio('source.m4a'))
+      pass
 
 
 @commands.command()
