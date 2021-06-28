@@ -552,28 +552,29 @@ async def youtube(ctx, url):
     }
 
     with youtube_dl.YoutubeDL(options) as ydl: # download audio file from youtube
+        await ctx.send('Downloading the audio file, this might take a while...')
         ydl.download(['{}'.format(url)])
 
     for file in os.listdir(os.getcwd()): # rename the file for easier access
-        if file.endswith('.m4a'):
-            print(file)
-            os.rename (str(file), 'source.m4a')
-    try:
-        channel = ctx.message.author.voice.channel # check if the user is in a voice channel
-    
-        if not channel:
-            await ctx.send('You are not connected to a voice channel')
+      if file.endswith('.m4a'):
+          print(file)
+          os.rename (str(file), 'source.m4a')
 
-        voice = get(bot.voice_clients, guild=ctx.guild) # get the voice channel
-        if voice and voice.is_connected():
-            await voice.move_to(channel) # connect to the same voice channel
-        else:
-            voice = await channel.connect() 
-        source = FFmpegPCMAudio('source.m4a') 
-        player = voice.play(source) # play the audio file
-    except:
-        await ctx.send('You are not connected to a voice channel')
+      voice_channel = ctx.message.author.voice.channel
 
+      try:
+        vc = await voice_channel.connect()
+      except:
+        print(f"something went wrong :)")
+
+      vc.play(discord.FFmpegPCMAudio('source.m4a'))
+      
+      while vc.is_playing():
+          time.sleep(.1)
+      
+      if not vc.is_playing():
+          time.sleep(1)
+          await vc.disconnect()
 
 @commands.command()
 async def oof(ctx):
