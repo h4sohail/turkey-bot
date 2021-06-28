@@ -25,8 +25,9 @@ intents = discord.Intents.default()
 bot = commands.Bot(command_prefix=prefix, intents=intents)
 bot.remove_command('help')
 
+echoes_mode = False
 
-status = cycle(['Status 1', 'Status 2', 'Status 3']) # status cycle
+status = cycle(['The Dark Side of the Moon', 'Wish You Were Here', '🗿 Ping 🗿']) # status cycle
 
 muted = {} # list of muted people
 
@@ -38,6 +39,39 @@ u_vote = False # voteunmute active or not
 u_votes = {'yes':0, 'no':0} # vote tally
 u_voters = [] # list of voters
 
+echoes_lyrics = cycle([
+  "Overhead the albatross",
+  "Hangs motionless upon the air",
+  "And deep beneath the rolling waves",
+  "In labyrinths of coral caves",
+  "The echo of a distant time",
+  "Comes willowing across the sand",
+  "And everything is green and submarine",
+  "And no one showed us to the land",
+  "And no one knows the wheres or whys",
+  "But something stirs and something tries",
+  "And starts to climb towards the light",
+  "Strangers passing in the street",
+  "By chance two separate glances meet",
+  "And I am you and what I see is me",
+  "And do I take you by the hand?",
+  "And lead you through the land?",
+  "And help me understand the best I can?",
+  "And no one calls us to move on",
+  "And no one forces down our eyes",
+  "And no one speaks and no one tries",
+  "And no one flies around the sun",
+  "Cloudless everyday you fall",
+  "Upon my waking eyes",
+  "Inviting and inciting me to rise",
+  "And through the window in the wall",
+  "Come streaming in on sunlight wings",
+  "A million bright ambassadors of morning",
+  "And no one sings me lullabies",
+  "And no one makes me close my eyes",
+  "And so I throw the windows wide",
+  "Callin' you across the sky"
+  ])
 
 @bot.event
 async def on_ready(): # runs upon bot being initialized
@@ -63,6 +97,7 @@ async def on_message(message): # runs on a new message being sent in the server
     global voters
     global u_votes
     global u_voters
+    global echoes_mode
     
     message_content = message.content # store message content in a variable
     author = message.author # grab the author name from the message
@@ -93,6 +128,37 @@ async def on_message(message): # runs on a new message being sent in the server
     
     else:
         pass # TO-DO: To be decided
+    
+    if is_admin(author):
+      if message_content == "!toggle echoes":
+        echoes_mode = not echoes_mode
+        if echoes_mode:
+          await message.channel.send(f":moyai: Echoes Mode: ON :moyai:")
+        else:
+          await message.channel.send(f":moyai: Echoes Mode: OFF :moyai:")
+
+    
+    if (echoes_mode):
+      if message.author.bot:
+        return
+
+      await message.add_reaction("🗿")
+      await message.channel.send(f":moyai: {next(echoes_lyrics)} :moyai:")
+      
+      voice_channel = message.guild.get_channel(619595098279378977)
+      try:
+        vc = await voice_channel.connect()
+      except:
+        print(f"something went wrong :)")
+
+      vc.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source="C:/Users/nullptr/Projects/Personal/justForAK/turkey-bot/sounds/echoes.mp3"))
+      
+      while vc.is_playing():
+          time.sleep(.1)
+      
+      if not vc.is_playing():
+          time.sleep(.3)
+          await vc.disconnect()
 
     # log all messages sent in the server with a time stamp in the format YYYY:MM:DD HH:MM:SS  
     dir = 'cache\log.txt' 
