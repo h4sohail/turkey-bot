@@ -21,8 +21,10 @@ from util import logger, text_wrap, is_admin, git
 
 # command prefix, bot initialization and removal of default 'help' command
 prefix = '!'
-bot = commands.Bot(command_prefix=prefix)
+intents = discord.Intents.default()
+bot = commands.Bot(command_prefix=prefix, intents=intents)
 bot.remove_command('help')
+
 
 status = cycle(['Status 1', 'Status 2', 'Status 3']) # status cycle
 
@@ -153,8 +155,6 @@ async def update(ctx):
             shutil.rmtree('turkey_bot')
     else:
         await ctx.send('You are not authorized to use this command.')
-    
-    logger('update',ctx)
 
 
 @commands.command()
@@ -174,8 +174,6 @@ async def reset(ctx):
         os.execv('turkey_bot/bot.py', sys.argv) # restart the bot
     else:
         await ctx.send('you are not authorized to use this command :rage:')
-
-    logger('reset',ctx)
 
 
 @commands.command()
@@ -225,8 +223,6 @@ async def votemute(ctx, member:discord.Member=None):
 
     vote = False
     votes = {'yes':0, 'no':0}
-   
-    logger('votemute',ctx)
 
 
 @commands.command()
@@ -270,8 +266,6 @@ async def voteunmute(ctx, member:discord.Member=None):
 
     u_vote = False
     u_votes = {'yes':0, 'no':0}
-       
-    logger('voteunmute',ctx)
 
 
 @commands.command()
@@ -302,8 +296,6 @@ async def giverole(ctx, role_name:str, *, color_code:str):
     await member.add_roles(role) # assign the role to the member
     await ctx.send('role added')
 
-    logger('giverole',ctx)
-
 
 @commands.command()
 async def removerole(ctx, role_name:str):
@@ -316,8 +308,6 @@ async def removerole(ctx, role_name:str):
     else:
         await  member.remove_roles(role)
         await ctx.send('role removed')
-
-    logger('removerole',ctx)
 
 
 @commands.command()
@@ -342,8 +332,6 @@ async def wordcloud(ctx):
 
     file = discord.File('word_cloud.png') # create an attachment
     await ctx.channel.send(file=file) # send the attachment
-    
-    logger('wordcloud',ctx)
 
 
 @commands.group() 
@@ -378,8 +366,6 @@ async def clown(ctx, *, text:str):
  
     await ctx.channel.send(file=file) # send the new image as an attachment
 
-    logger('clown',ctx)
-
 
 @commands.command()
 async def ping(ctx):
@@ -388,8 +374,6 @@ async def ping(ctx):
     latency = bot.latency 
     await ctx.send(latency)
     await ctx.send(':ping_pong:')
-
-    logger('ping',ctx)
 
 
 @commands.command()
@@ -409,8 +393,6 @@ async def echo(ctx, n:int, *, content:str):
     else:
         await ctx.send(content)
 
-    logger('echo',ctx)
-
 
 @commands.command()
 async def copypasta(ctx, filename, content):
@@ -426,8 +408,6 @@ async def copypasta(ctx, filename, content):
     except:
         print('something went wrong :D')
 
-    logger('copypasta',ctx)
-
 
 @commands.command()
 async def pasta(ctx, filename):
@@ -437,8 +417,6 @@ async def pasta(ctx, filename):
     with open(dir, 'r') as f: # retrieve the copypasta and send it as a message
         pasta = f.read()
         await ctx.send(pasta)
-
-    logger('pasta',ctx)
 
 
 @commands.command()
@@ -451,8 +429,6 @@ async def wolfram(ctx, content):
 
     r = requests.get(wolframUrl, params=wolframParams) # make an http request to get results from wolframalpha with given params
     await ctx.send(r.text) # send results from wolframalpha
-
-    logger('wolfram',ctx)
 
 
 @commands.command()
@@ -470,8 +446,6 @@ async def wolfram_image(ctx, content):
     attachment = discord.File('data.gif')
 
     await ctx.channel.send(file=attachment) # send the image as an attachment
-    
-    logger('wolfram_image',ctx)
 
 
 @commands.command()
@@ -487,8 +461,6 @@ async def google(ctx, keywords):
     ]
 
     await ctx.send(files=attachment) # send the image as an attachment
-
-    logger('google',ctx)
 
 
 @commands.command()
@@ -536,39 +508,32 @@ async def youtube(ctx, url):
     except:
         await ctx.send('You are not connected to a voice channel')
 
-    logger('youtube',ctx)
-
 
 @commands.command()
 async def oof(ctx):
     logger('oof',ctx)
 
-    try:
-        channel = ctx.message.author.voice.channel
-        if not channel:
-            await ctx.send('You are not connected to a voice channel')
-
-        voice = get(bot.voice_clients, guild=ctx.guild)
-        if voice and voice.is_connected():
-                await voice.move_to(channel)
-        else:
-            voice = await channel.connect()
-        source = FFmpegPCMAudio('sounds/oof.m4a')
-        player = voice.play(source)
-    except:
+    
+    channel = ctx.message.author.voice.channel
+    if not channel:
         await ctx.send('You are not connected to a voice channel')
 
-    logger('oof',ctx)
+    voice = get(bot.voice_clients, guild=ctx.guild)
+    if voice and voice.is_connected():
+            await voice.move_to(channel)
+    else:
+        voice = await channel.connect()
+    source = FFmpegPCMAudio('sounds/oof.m4a')
+    player = voice.play(source)
+
 
 
 @commands.command()
 async def flip(ctx):
-    logger('flip',ctx)
+    logger('flip', ctx)
 
     options=['Heads','Tails']
     await ctx.send('You rolled ' + options[random.randint(0,1)])
-
-    logger('flip',ctx)
 
 
 @commands.command()
@@ -579,8 +544,6 @@ async def disconnect(ctx):
     await voice.disconnect() # disconnect the bot from a voice channel
     if os.path.exists('source.m4a'):
         os.remove('source.m4a')
-
-    logger('disconnect',ctx)
 
 
 @commands.command()
@@ -623,8 +586,6 @@ async def emoji(ctx, *, content:str):
    emoji_text = ' '.join(emoji_text) # list to string
    await ctx.send(emoji_text)
 
-   logger('emoji',ctx)
-
 
 @commands.command()
 async def help(ctx):
@@ -652,8 +613,6 @@ async def help(ctx):
     embed.add_field(name='!voteunmute', value='usage: !voteunmute (tag the user to mute)', inline = False)
 
     await ctx.send(embed=embed)
-
-    logger('help',ctx)
 
  
 def main():
